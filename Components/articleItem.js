@@ -1,22 +1,23 @@
 import React from 'react'
 import {StyleSheet, Text, View, Image} from 'react-native'
+import { getImageFromAPI} from '../Api/articleApi'
 
-class articleItem extends React.Component{
-    //const article = this.props.article
+class ArticleItem extends React.Component{
     render() {
+        const {article} = this.props;
         return (
             <View style={styles.corps}>
                 <View>
                     <Image
-                    style={styles.image}
-                    source={{uri: "image"}}
+                    style={styles.images}
+                    source={{uri: getImageFromAPI(article.image)}}
                     />
                 </View>
                 <View>
-                    <Text style={styles.titre_article}>{}</Text>
+                    <Text style={styles.titre_article}>{article.nom}</Text>
                 </View>
                 <View>
-                    <Text style={styles.description_article}>{}</Text>
+                    <Text style={styles.description_article}>{article.sous_titre}</Text>
                 </View>
             </View>
         )
@@ -25,26 +26,23 @@ class articleItem extends React.Component{
 }
 const styles = StyleSheet.create({
     corps: {
-        flexDirection: 'row',
-        height: 400
+        height: 300
     },
-    image: {
+    images: {
         width: 200,
         height: 115,
         margin: 5,
-        flexDirection: 'row'
     },
     titre_article: {
         textAlign: 'center',
-        fontSize: '20',
-        flexDirection: 'row'
+        //fontSize: '20',
     },
     description_article: {
         textAlign: 'left',
-        fontSize: '10',
+        //fontSize: '10',
         margin: 5,
-        flexDirection: 'row'
+
     }
 });
 
-export default articleItem
+export default ArticleItem

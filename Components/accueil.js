@@ -1,21 +1,17 @@
 import React from 'react'
-import {StyleSheet, Text} from 'react-native'
+import {StyleSheet} from 'react-native'
+import ArticleList from './articleList';
 
 class Accueil extends React.Component {
 
     render() {
         return (
-            <Text style={styles.texte}>Insert Code Here</Text>
+            <ArticleList/>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    texte: {
-        textAlign: 'center',
-        color: 'grey',
-        fontSize: 40
-    }
 });
 
 export default Accueil

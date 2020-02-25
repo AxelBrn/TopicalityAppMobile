@@ -7,6 +7,5 @@ export function getAllArticlesFromAPI () {
 }
 
 export function getImageFromAPI (name) {
-    return fetch('https://www.topicality.fr/public/uploads/images/' + name).then((response) => response.json())
-        .catch((error) => console.error(error));
+    return 'https://www.topicality.fr/uploads/images/' + name
 }
