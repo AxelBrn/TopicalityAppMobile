@@ -8,6 +8,7 @@ class ArticleList extends React.Component{
     constructor(props) {
         super(props);
         this.state = { articles: [] }
+        this._loadArticle()
     }
 
     _loadArticle() {
@@ -17,7 +18,6 @@ class ArticleList extends React.Component{
     render() {
         return (
             <View>
-                {this._loadArticle()}
                 <FlatList
                     data={ this.state.articles }
                     keyExtractor={(item) => item.id.toString()}

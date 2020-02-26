@@ -5,6 +5,7 @@ import { Image, StyleSheet} from "react-native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native'
+import ArticleDetail from '../Components/ArticleDetail';
 
 const StackAccueil = createStackNavigator()
 const TabAccueil = createBottomTabNavigator()
@@ -26,6 +27,10 @@ function displayStackAccueil () {
                     }
                 }}
 
+            />
+            <StackAccueil.Screen
+                name="Detail"
+                component={ArticleDetail}
             />
         </StackAccueil.Navigator>
     )
