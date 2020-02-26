@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet, FlatList, View, Text} from 'react-native'
-import ArticleItem from './articleItem';
+import ArticleItem from './ArticleItem';
 import { getAllArticlesFromAPI} from '../Api/articleApi'
 
 class ArticleList extends React.Component{
