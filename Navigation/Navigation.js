@@ -1,16 +1,82 @@
 import React from 'react'
 import Accueil from '../Components/Accueil'
 import Connexion from '../Components/Connexion'
-import { Image, StyleSheet} from "react-native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Image, StyleSheet, TouchableOpacity, Text, View} from "react-native"
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import ArticleDetail from '../Components/ArticleDetail';
+import ArticleDetail from '../Components/ArticleDetail'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { createDrawerNavigator, DrawerItem, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 
 const StackAccueil = createStackNavigator()
 const TabAccueil = createBottomTabNavigator()
+const BottomNav = createMaterialBottomTabNavigator()
+const DrawerNav = createDrawerNavigator()
 
-function displayStackAccueil () {
+function displayDrawer () {
+    return (
+        <DrawerNav.Navigator
+            drawerStyle={styles.drawer_style}
+            initialRouteName="Topicality"
+            drawerContent={displayLogoTopicalityInDrawer}
+        >
+            <DrawerNav.Screen name="Topicality" component={displayBottomTab}/>
+            <DrawerNav.Screen name="Connexion" component={Connexion}/>
+        </DrawerNav.Navigator>
+    )
+}
+
+function displayLogoTopicalityInDrawer (props) {
+    return (
+        <DrawerContentScrollView {...props} style={styles.custom_drawer}>
+            <TouchableOpacity style={styles.background_logo}>
+                <Image
+                    source={require('../Images/logo_Topicality.png')}
+                    style={styles.logo}/>
+            </TouchableOpacity>
+            <View style={{backgroundColor: '#ffffff'}}>
+                <DrawerItemList {...props} />
+            </View>
+        </DrawerContentScrollView>
+    )
+}
+
+function displayBottomTab () {
+    return (
+        <BottomNav.Navigator
+            labeled={false}
+            shifting={true}
+        >
+            <BottomNav.Screen
+                name="Topicality"
+                component={displayStackAccueil}
+                options={{
+                    tabBarIcon: () => {
+                        return <Image
+                            source={require('../Images/home.png')}
+                            style={styles.icon}/>
+                    },
+                    tabBarColor: '#000000'
+                }}
+            />
+            <BottomNav.Screen
+                name="Connexion"
+                component={Connexion}
+                options={{
+                    tabBarIcon: () => {
+                        return <Image
+                            source={require('../Images/login.png')}
+                            style={styles.icon}/>
+                    },
+                    tabBarColor: '#7571f9'
+                }}
+            />
+        </BottomNav.Navigator>
+    )
+}
+
+function displayStackAccueil ({navigation}) {
     return (
         <StackAccueil.Navigator>
             <StackAccueil.Screen
@@ -24,6 +90,19 @@ function displayStackAccueil () {
                     headerTitleStyle: {
                         color: '#ffffff',
                         fontWeight: 'bold'
+                    },
+                    headerLeft: () => {
+                        return (
+                            <TouchableOpacity
+                                style={styles.button_burger}
+                                activeOpacity={1}
+                                onPress={navigation.openDrawer}
+                            >
+                                <Image
+                                    source={require('../Images/menu.png')}
+                                    style={styles.icon}/>
+                            </TouchableOpacity>
+                        )
                     }
                 }}
 
@@ -48,7 +127,7 @@ function displayTabAccueil () {
         >
             <TabAccueil.Screen
                 name="Topicality"
-                component={displayStackAccueil}
+                component={displayStackAccueil()}
                 options={{
                     tabBarIcon: () => {
                         return <Image
@@ -77,7 +156,7 @@ class Navigation extends React.Component {
     render() {
         return (
             <NavigationContainer>
-                {displayTabAccueil()}
+                {displayDrawer()}
             </NavigationContainer>
         )
     }
@@ -88,8 +167,26 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30
     },
-    color: {
-        backgroundColor: '#7571f9'
+    button_burger: {
+        marginLeft:10,
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    drawer_style: {
+        backgroundColor: '#ffffff',
+        margin: 0
+    },
+    logo: {
+        height: 30,
+        alignSelf: 'center'
+    },
+    background_logo: {
+        margin: 0,
+        height:50
+    },
+    custom_drawer: {
+        backgroundColor: '#7571f9',
+        flex: 1
     }
 })
 
