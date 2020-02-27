@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, FlatList, View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {StyleSheet, FlatList, View, Text, ActivityIndicator, TouchableOpacity, ScrollView, } from 'react-native';
 import ArticleItem from './ArticleItem';
 import { getAllArticlesFromAPI} from '../Api/articleApi'
 
@@ -10,6 +10,10 @@ class ArticleList extends React.Component{
         this.state = { articles: [], isLoading: true
         }
         this._loadArticle()
+    }
+
+    _displayDetailForArticle = (idArticle) => {
+        this.props.navigation.navigate('Detail', {idArticle: idArticle})
     }
 
     _displayLoading() {
@@ -33,6 +37,7 @@ class ArticleList extends React.Component{
                         renderItem={({item}) => (
                             <ArticleItem
                                 article={item}
+                                displayArticle={this._displayDetailForArticle}
                             />
                         )}
                     />
@@ -46,7 +51,6 @@ class ArticleList extends React.Component{
         getAllArticlesFromAPI().then(data => this.setState({
             articles : data,
             isLoading: false
-
         }))
     }
 

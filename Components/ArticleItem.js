@@ -4,8 +4,6 @@ import { getImageFromAPI} from '../Api/articleApi'
 
 class ArticleItem extends React.Component{
 
-
-
     _displayImage(image) {
         if((image == null)||(image.indexOf('/tmp/') !== -1)){
             return(
@@ -24,9 +22,11 @@ class ArticleItem extends React.Component{
     }
 
     render() {
-        const {article} = this.props;
+        const {article, displayArticle} = this.props;
         return (
-            <TouchableOpacity style={styles.corps}>
+            <TouchableOpacity
+                style={styles.corps}
+                onPress={() => displayArticle(article.id)}>
                 <View style={styles.globale_article}>
                     {this._displayImage(article.image)}
                     <View style={styles.main_article}>

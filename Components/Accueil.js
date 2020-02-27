@@ -6,7 +6,7 @@ class Accueil extends React.Component {
 
     render() {
         return (
-            <ArticleList/>
+            <ArticleList navigation={this.props.navigation}/>
         )
     }
 }
