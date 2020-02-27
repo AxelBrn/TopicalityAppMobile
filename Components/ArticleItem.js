@@ -1,48 +1,108 @@
 import React from 'react'
-import {StyleSheet, Text, View, Image} from 'react-native'
+import {StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator} from 'react-native'
 import { getImageFromAPI} from '../Api/articleApi'
 
 class ArticleItem extends React.Component{
+
+
+
+    _displayImage(image) {
+        if((image == null)||(image.indexOf('/tmp/') !== -1)){
+            return(
+                <Image
+                    style={styles.images}
+                    source={require('../Images/no-image.jpg')}
+                />
+            )
+        }
+        return (
+            <Image
+                style={styles.images}
+                source={{uri: getImageFromAPI(image)}}
+            />
+        )
+    }
+
     render() {
         const {article} = this.props;
         return (
-            <View style={styles.corps}>
-                <View>
-                    <Image
-                    style={styles.images}
-                    source={{uri: getImageFromAPI(article.image)}}
-                    />
+            <TouchableOpacity style={styles.corps}>
+                <View style={styles.globale_article}>
+                    {this._displayImage(article.image)}
+                    <View style={styles.main_article}>
+                        <Text style={styles.titre_article}>{article.nom}</Text>
+                        <Text style={styles.description_article} numberOfLines={4}>{article.sous_titre}</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={styles.titre_article}>{article.nom}</Text>
+
+                <View style={styles.contenu_article}>
+                    <Text style={styles.auteur_article}>{article.u_nom} {article.u_prenom}</Text>
+                    <Text style={styles.publie_article}>{article.datetime}</Text>
+                    <Text style={styles.categorie_article}>{article.libelle}</Text>
                 </View>
-                <View>
-                    <Text style={styles.description_article}>{article.sous_titre}</Text>
-                </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 
 }
 const styles = StyleSheet.create({
     corps: {
-        height: 300
+        marginTop: 10,
+        marginBottom: 5,
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'gray',
+        paddingBottom: 10
     },
     images: {
-        width: 200,
-        height: 115,
+        width: 300,
+        height: 100,
         margin: 5,
+        flex:2
     },
     titre_article: {
+        flexWrap: 'wrap',
         textAlign: 'center',
-        //fontSize: '20',
+        fontWeight: 'bold',
+        fontSize: 13,
+        marginRight: 2,
     },
     description_article: {
         textAlign: 'left',
-        //fontSize: '10',
-        margin: 5,
-
-    }
+        marginRight: 2,
+        marginLeft: 2,
+        marginTop: 6,
+        fontSize: 12
+    },
+    auteur_article: {
+        textAlign: 'center',
+        flex: 1,
+        fontSize: 10,
+        color: 'gray'
+    },
+    publie_article: {
+        textAlign: 'center',
+        flex: 1,
+        fontSize: 10,
+        color: 'gray'
+    },
+    categorie_article: {
+        textAlign: 'center',
+        flex: 1,
+        fontSize: 10,
+        color: 'gray'
+    },
+    contenu_article: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingTop: 5,
+    },
+    main_article: {
+        flexDirection: 'column',
+        flex:3,
+    },
+    globale_article: {
+        flexDirection: 'row',
+}
 });
 
 export default ArticleItem
