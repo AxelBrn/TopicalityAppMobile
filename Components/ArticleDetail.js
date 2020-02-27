@@ -36,7 +36,7 @@ class ArticleDetail extends React.Component{
     componentDidMount() {
         getArticleByIdFromAPI(this.props.route.params.idArticle).then(data => {
             this.setState({
-                article: data,
+                article: data[0],
                 isLoading: false
             })
         })
@@ -45,10 +45,7 @@ class ArticleDetail extends React.Component{
     _displayArticle() {
         if (this.state.article !== undefined){
             return(
-                <View>
-                    <Text>{this.state.article.nom}</Text>
-                </View>
-                /*<ScrollView style={styles.scrollview_article}>
+                <ScrollView style={styles.scrollview_article}>
                     <Text style={styles.titre_article}>{this.state.article.nom}</Text>
                     {this._displayImageArticle(this.state.article.image)}
                     <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
@@ -59,7 +56,7 @@ class ArticleDetail extends React.Component{
                         <Text style={styles.publie_article}>{this.state.article.datetime}</Text>
                         <Text style={styles.categorie_article}>{this.state.article.libelle}</Text>
                     </View>
-                </ScrollView>*/
+                </ScrollView>
             )
         }
     }
@@ -76,30 +73,57 @@ class ArticleDetail extends React.Component{
 }
 const styles = StyleSheet.create({
     scrollview_article: {
-        flex: 1
     },
     titre_article: {
         textAlign: 'center',
-        fontSize: 27,
+        fontSize: 25,
         fontWeight: 'bold',
+        marginRight: 5,
+        marginLeft: 5,
+        marginBottom: 10
     },
     description_article: {
-        textAlign: 'left'
+        textAlign: 'left',
+        marginRight: 5,
+        marginLeft: 5,
+        paddingTop: 4,
+        paddingBottom: 4
     },
     source_article: {
-        textAlign: 'left'
+        textAlign: 'left',
+        marginRight: 5,
+        marginLeft: 5,
+        paddingTop: 5,
     },
     auteur_article: {
         textAlign: 'center',
+        color: 'gray',
+        paddingTop: 5
     },
     publie_article: {
-        textAlign: 'left',
+        textAlign: 'center',
+        flex: 1,
+        color: 'gray',
+        paddingTop: 5
     },
     categorie_article: {
-        textAlign: 'right',
+        textAlign: 'center',
+        flex: 1,
+        color: 'gray',
+        paddingTop: 5
     },
     caracteristique_article: {
-        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    images: {
+        height: 200,
+        marginLeft: 5,
+        marginBottom: 5
+    },
+    contenu_article: {
+        marginRight: 5,
+        marginLeft: 5,
     }
 })
 
