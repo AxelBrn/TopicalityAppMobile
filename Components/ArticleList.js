@@ -46,7 +46,6 @@ class ArticleList extends React.Component{
         }
     }
 
-
     _loadArticle() {
         getAllArticlesFromAPI().then(data => this.setState({
             articles : data,
