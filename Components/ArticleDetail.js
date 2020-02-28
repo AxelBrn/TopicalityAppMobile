@@ -1,6 +1,7 @@
 import React from 'react'
-import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image} from 'react-native';
+import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, Linking} from 'react-native';
 import {getImageFromAPI, getArticleByIdFromAPI} from '../Api/articleApi'
+import Hyperlink from 'react-native-hyperlink'
 
 class ArticleDetail extends React.Component{
 
@@ -50,7 +51,9 @@ class ArticleDetail extends React.Component{
                     {this._displayImageArticle(this.state.article.image)}
                     <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
                     <Text style={styles.contenu_article}>{this.state.article.contenu}</Text>
-                    <Text style={styles.source_article}>{this.state.article.source}</Text>
+                    <Hyperlink linkDefault={ true }>
+                        <Text style={styles.source_article}>{this.state.article.source}</Text>
+                    </Hyperlink>
                     <Text style={styles.auteur_article}>{this.state.article.u_nom} {this.state.article.u_prenom}</Text>
                     <View style={styles.caracteristique_article}>
                         <Text style={styles.publie_article}>{this.state.article.datetime}</Text>
@@ -71,6 +74,7 @@ class ArticleDetail extends React.Component{
         )
     }
 }
+
 const styles = StyleSheet.create({
     scrollview_article: {
     },
@@ -94,6 +98,8 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginLeft: 5,
         paddingTop: 5,
+        color: 'blue',
+        fontStyle: 'italic'
     },
     auteur_article: {
         textAlign: 'center',
