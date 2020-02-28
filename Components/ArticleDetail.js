@@ -2,6 +2,7 @@ import React from 'react'
 import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, Linking} from 'react-native';
 import {getImageFromAPI, getArticleByIdFromAPI} from '../Api/articleApi'
 import Hyperlink from 'react-native-hyperlink'
+import Markdown from 'react-native-markdown-package'
 
 class ArticleDetail extends React.Component{
 
@@ -50,7 +51,11 @@ class ArticleDetail extends React.Component{
                     <Text style={styles.titre_article}>{this.state.article.nom}</Text>
                     {this._displayImageArticle(this.state.article.image)}
                     <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
-                    <Text style={styles.contenu_article}>{this.state.article.contenu}</Text>
+                    <View style={styles.contenu_article}>
+                        <Markdown>
+                            {this.state.article.contenu}
+                        </Markdown>
+                    </View>
                     <Hyperlink linkDefault={ true }>
                         <Text style={styles.source_article}>{this.state.article.source}</Text>
                     </Hyperlink>
