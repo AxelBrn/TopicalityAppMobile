@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import ArticleDetail from '../Components/ArticleDetail'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { createDrawerNavigator, DrawerItem, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import ALirePlusTard from '../Components/ALirePlusTard'
 
 const StackAccueil = createStackNavigator()
 const TabAccueil = createBottomTabNavigator()
@@ -22,7 +23,7 @@ function displayDrawer () {
             drawerContent={displayLogoTopicalityInDrawer}
         >
             <DrawerNav.Screen name="Topicality" component={displayBottomTab}/>
-            <DrawerNav.Screen name="Connexion" component={Connexion}/>
+
         </DrawerNav.Navigator>
     )
 }
@@ -30,10 +31,14 @@ function displayDrawer () {
 function displayLogoTopicalityInDrawer (props) {
     return (
         <DrawerContentScrollView {...props} style={styles.custom_drawer}>
-            <TouchableOpacity style={styles.background_logo}>
+            <TouchableOpacity
+                style={styles.background_logo}
+                onPress={() => props.navigation.navigate('Connexion')}
+            >
                 <Image
                     source={require('../Images/logo_Topicality.png')}
-                    style={styles.logo}/>
+                    style={styles.logo}
+                />
             </TouchableOpacity>
             <View style={{backgroundColor: '#ffffff'}}>
                 <DrawerItemList {...props} />
@@ -57,7 +62,7 @@ function displayBottomTab () {
                             source={require('../Images/home.png')}
                             style={styles.icon}/>
                     },
-                    tabBarColor: '#000000'
+                    tabBarColor: '#7571f9'
                 }}
             />
             <BottomNav.Screen
@@ -69,7 +74,19 @@ function displayBottomTab () {
                             source={require('../Images/login.png')}
                             style={styles.icon}/>
                     },
-                    tabBarColor: '#7571f9'
+                    tabBarColor: '#4e94f3'
+                }}
+            />
+            <BottomNav.Screen
+                name="LirePlusTard"
+                component={ALirePlusTard}
+                options={{
+                    tabBarIcon: () => {
+                        return <Image
+                            source={require('../Images/plus_tard.png')}
+                            style={styles.icon}/>
+                    },
+                    tabBarColor: '#ff5050'
                 }}
             />
         </BottomNav.Navigator>
@@ -115,41 +132,6 @@ function displayStackAccueil ({navigation}) {
     )
 }
 
-function displayTabAccueil () {
-    return (
-        <TabAccueil.Navigator
-            tabBarOptions = {{
-                showLabel: false,
-                activeBackgroundColor: '#7571f9',
-                inactiveBackgroundColor: '#5d5aad'
-            }}
-            style={styles.color}
-        >
-            <TabAccueil.Screen
-                name="Topicality"
-                component={displayStackAccueil()}
-                options={{
-                    tabBarIcon: () => {
-                        return <Image
-                            source={require('../Images/home.png')}
-                            style={styles.icon}/>
-                    }
-                }}
-            />
-            <TabAccueil.Screen
-                name="Connexion"
-                component={Connexion}
-                options={{
-                    tabBarIcon: () => {
-                        return <Image
-                            source={require('../Images/login.png')}
-                            style={styles.icon}/>
-                    }
-                }}
-            />
-        </TabAccueil.Navigator>
-    )
-}
 
 class Navigation extends React.Component {
 
