@@ -21,7 +21,7 @@ class ArticleList extends React.Component{
             // Si isLoading vaut true, on affiche le chargement à l'écran
             return (
                 <View style={styles.loading_container}>
-                    <ActivityIndicator size='large' />
+                    <ActivityIndicator size='large' color={'black'} />
                 </View>
             )
         }
@@ -56,7 +56,7 @@ class ArticleList extends React.Component{
 
     render() {
         return (
-            <View>
+            <View style={{flex:1}}>
                 {this._displayLoading()}
                 {this._displayArticle()}
             </View>

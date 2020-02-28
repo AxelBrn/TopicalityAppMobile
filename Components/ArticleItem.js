@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: 'gray'
     },
+
     publie_article: {
         textAlign: 'center',
         flex: 1,

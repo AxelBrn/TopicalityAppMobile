@@ -18,7 +18,7 @@ class ArticleDetail extends React.Component{
         if (this.state.isLoading) {
             return (
                 <View style={styles.loading_container}>
-                    <ActivityIndicator size='large' />
+                    <ActivityIndicator size='large' color={'black'}/>
                 </View>
             )
         }
@@ -71,7 +71,7 @@ class ArticleDetail extends React.Component{
 
     render() {
         return (
-            <View>
+            <View style={{flex:1}}>
                 {this._displayLoading()}
                 {this._displayArticle()}
             </View>
@@ -97,6 +97,15 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         paddingTop: 4,
         paddingBottom: 4
+    },
+    loading_container: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     source_article: {
         textAlign: 'left',
