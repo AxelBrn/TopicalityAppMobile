@@ -1,14 +1,16 @@
 
 import React from 'react'
 import 'react-native-gesture-handler';
-import { StyleSheet, View,} from 'react-native'
-import Accueil from './Components/Accueil'
-import articleItem from './Components/ArticleItem';
+import { StyleSheet } from 'react-native'
 import Navigation from './Navigation/Navigation';
+import { Provider } from 'react-redux'
+import Store from './Store/configureStore'
 
 const App: () => React$Node = () => {
     return (
-        <Navigation/>
+        <Provider store={Store}>
+            <Navigation/>
+        </Provider>
     );
 };
 

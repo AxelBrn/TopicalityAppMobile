@@ -1,11 +1,50 @@
 import React from 'react'
-import {StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ImageBackground} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
+import base64 from 'react-native-base64'
+import { getUserIfConnected } from '../Api/connexionApi'
+import { connect } from 'react-redux'
 
 class Connexion extends React.Component {
 
-    render() {
-        return (
-                <View style={{backgroundColor:'white', flex:1}}>
+    constructor() {
+        super()
+        this.passwordText = ""
+        this.userMailText = ""
+        this.index = 0
+        this.state = { user: undefined}
+    }
+
+    _encryptPassword() {
+        let password = this.passwordText
+        let userMail = this.userMailText
+        let hash = base64.encode(password)
+        this._verifConnexion(userMail, hash)
+    }
+
+    _verifConnexion (mail, password) {
+        getUserIfConnected(mail, password).then(data => this.setState({
+            user: data[0]
+        }))
+    }
+
+    _toggleUser() {
+        const action = { type: "TOGGLE_USER", value: this.state.user }
+        this.props.dispatch(action)
+    }
+
+    _passwordTextInputChanged(text) {
+        this.passwordText = text
+    }
+
+    _userMailTextInputChanged(text) {
+        this.userMailText = text
+    }
+
+    _displayConnexionComponent() {
+        if(this.state.user === undefined) {
+            this.index = 0
+            return (
+                <View style={{backgroundColor: 'white', flex: 1}}>
                     <View style={styles.image}>
                         <Image
                             style={styles.image_connexion}
@@ -21,6 +60,7 @@ class Connexion extends React.Component {
                             style={styles.textConnexion}
                             placeholder='Username'
                             placeholderTextColor={'#4e94f3'}
+                            onChangeText={(text) => this._userMailTextInputChanged(text)}
                         />
                     </View>
                     <View style={styles.password_connexion}>
@@ -33,13 +73,32 @@ class Connexion extends React.Component {
                             placeholder='Password'
                             placeholderTextColor={'#4e94f3'}
                             secureTextEntry={true}
+                            onChangeText={(text) => this._passwordTextInputChanged(text)}
                         />
                     </View>
                     <TouchableOpacity
-                        style={styles.bouton_connexion}>
+                        style={styles.bouton_connexion}
+                        onPress={() => this._encryptPassword()}
+                    >
                         <Text style={styles.textButon}>Login Now</Text>
                     </TouchableOpacity>
                 </View>
+            )
+        }
+        else {
+            if(this.index === 0){
+                this._toggleUser()
+                this.index += 1
+            }
+            this.props.navigation.navigate('MesArticles')
+        }
+    }
+
+    render() {
+        return (
+            <View style={{flex:1}}>
+                {this._displayConnexionComponent()}
+            </View>
         )
     }
 }
@@ -120,4 +179,10 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Connexion
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(Connexion)

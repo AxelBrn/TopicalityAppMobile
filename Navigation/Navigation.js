@@ -10,6 +10,7 @@ import { createDrawerNavigator,  DrawerContentScrollView } from '@react-navigati
 import ALirePlusTard from '../Components/ALirePlusTard'
 import Categorie from '../Components/Categorie';
 import CustomDrawer from './CustomDrawer';
+import MesArticles from '../Components/MesArticles';
 
 const StackAccueil = createStackNavigator()
 const StackConnexion = createStackNavigator()
@@ -64,7 +65,7 @@ function displayBottomTab () {
                 options={{
                     tabBarIcon: () => {
                         return <Image
-                            source={require('../Images/login.png')}
+                            source={require('../Images/mes_articles.png')}
                             style={styles.icon}/>
                     },
                     tabBarColor: '#4e94f3'
@@ -89,6 +90,20 @@ function displayBottomTab () {
 function displayStackConnexion () {
     return (
         <StackConnexion.Navigator>
+            <StackConnexion.Screen
+                name="MesArticles"
+                component={MesArticles}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: '#4e94f3'
+                    },
+                    headerTitleStyle: {
+                        color: '#ffffff',
+                        fontWeight: 'bold'
+                    }
+                }}
+            />
             <StackConnexion.Screen
                 name="Connexion"
                 component={Connexion}
