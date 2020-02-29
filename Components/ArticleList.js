@@ -5,19 +5,12 @@ import { getAllArticlesFromAPI} from '../Api/articleApi'
 
 class ArticleList extends React.Component{
 
-    constructor(props) {
-        super(props);
-        this.state = { articles: [], isLoading: true
-        }
-        this._loadArticle()
-    }
-
     _displayDetailForArticle = (idArticle) => {
         this.props.navigation.navigate('Detail', {idArticle: idArticle})
     }
 
     _displayLoading() {
-        if (this.state.isLoading) {
+        if (this.props.isLoading) {
             // Si isLoading vaut true, on affiche le chargement à l'écran
             return (
                 <View style={styles.loading_container}>
@@ -28,11 +21,11 @@ class ArticleList extends React.Component{
     }
 
     _displayArticle() {
-        if (this.state.articles.length > 0) {
+        if (this.props.articles.length > 0) {
             return(
                 <View>
                     <FlatList
-                        data={ this.state.articles }
+                        data={ this.props.articles }
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({item}) => (
                             <ArticleItem
@@ -44,13 +37,6 @@ class ArticleList extends React.Component{
             </View>
             )
         }
-    }
-
-    _loadArticle() {
-        getAllArticlesFromAPI().then(data => this.setState({
-            articles : data,
-            isLoading: false
-        }))
     }
 
     render() {

@@ -12,7 +12,7 @@ class CustomDrawer extends React.Component {
     }
 
     _displayImageCategorie(path) {
-        let pathImage = ""
+        let pathImage = ''
         switch (path) {
             case '1' :
                 pathImage= require('../Images/icons_categorie/Programmation.png')
@@ -115,17 +115,13 @@ const styles = StyleSheet.create({
         marginTop:7,
         marginBottom:10,
         paddingBottom:10,
-        borderBottomWidth:0.4
-
     },
     button_drawer_categorie: {
-        marginLeft: 15,
-        marginRight:15,
-        height:40,
-        borderWidth: 0.15,
+        height:45,
+        borderBottomWidth: 0.2,
+        alignItems: 'center',
+        paddingLeft: 8,
         borderColor: 'grey',
-        borderRadius: 10,
-        marginBottom:7,
         flexDirection: 'row',
     },
     logo: {
@@ -134,7 +130,8 @@ const styles = StyleSheet.create({
     },
     icon: {
         height:20,
-        width:20
+        width:20,
+        marginRight: 10
     },
     background_logo: {
         marginTop: -10,

@@ -11,6 +11,11 @@ export function getArticleByIdFromAPI (id) {
         .catch((error) => console.error(error));
 }
 
+export function getArticleByCategorie (idCateg) {
+    return fetch(URL_BASE + API_TOKEN + 'article.php?idCat=' + idCateg).then((response) => response.json())
+        .catch((error) => console.error(error));
+}
+
 export function getImageFromAPI (name) {
     return 'https://www.topicality.fr/uploads/images/' + name
 }
