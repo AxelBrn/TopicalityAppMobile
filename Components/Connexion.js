@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     image: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 100,
+        marginTop: 50,
         marginBottom: 10
     },
     textButon: {

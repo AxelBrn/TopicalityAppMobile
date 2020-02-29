@@ -1,17 +1,18 @@
 import React from 'react'
 import Accueil from '../Components/Accueil'
 import Connexion from '../Components/Connexion'
-import { Image, StyleSheet, TouchableOpacity, Text, View} from "react-native"
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Image, StyleSheet, TouchableOpacity} from "react-native"
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import ArticleDetail from '../Components/ArticleDetail'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import { createDrawerNavigator, DrawerItem, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { createDrawerNavigator,  DrawerContentScrollView } from '@react-navigation/drawer'
 import ALirePlusTard from '../Components/ALirePlusTard'
+import Categorie from '../Components/Categorie';
+import CustomDrawer from './CustomDrawer';
 
 const StackAccueil = createStackNavigator()
-const TabAccueil = createBottomTabNavigator()
+const StackConnexion = createStackNavigator()
 const BottomNav = createMaterialBottomTabNavigator()
 const DrawerNav = createDrawerNavigator()
 
@@ -31,21 +32,13 @@ function displayDrawer () {
 function displayLogoTopicalityInDrawer (props) {
     return (
         <DrawerContentScrollView {...props} style={styles.custom_drawer}>
-            <TouchableOpacity
-                style={styles.background_logo}
-                onPress={() => props.navigation.navigate('Connexion')}
-            >
-                <Image
-                    source={require('../Images/logo_Topicality.png')}
-                    style={styles.logo}
-                />
-            </TouchableOpacity>
-            <View style={{backgroundColor: '#ffffff'}}>
-                <DrawerItemList {...props} />
-            </View>
+            <CustomDrawer
+                navigation={props.navigation}
+            />
         </DrawerContentScrollView>
     )
 }
+
 
 function displayBottomTab () {
     return (
@@ -67,7 +60,7 @@ function displayBottomTab () {
             />
             <BottomNav.Screen
                 name="Connexion"
-                component={Connexion}
+                component={displayStackConnexion}
                 options={{
                     tabBarIcon: () => {
                         return <Image
@@ -90,6 +83,27 @@ function displayBottomTab () {
                 }}
             />
         </BottomNav.Navigator>
+    )
+}
+
+function displayStackConnexion () {
+    return (
+        <StackConnexion.Navigator>
+            <StackConnexion.Screen
+                name="Connexion"
+                component={Connexion}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: '#4e94f3'
+                    },
+                    headerTitleStyle: {
+                        color: '#ffffff',
+                        fontWeight: 'bold'
+                    }
+                }}
+            />
+        </StackConnexion.Navigator>
     )
 }
 
@@ -127,6 +141,30 @@ function displayStackAccueil ({navigation}) {
             <StackAccueil.Screen
                 name="Detail"
                 component={ArticleDetail}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: '#7571f9'
+                    },
+                    headerTitleStyle: {
+                        color: '#ffffff',
+                        fontWeight: 'bold'
+                    }
+                }}
+            />
+            <StackAccueil.Screen
+                name="Categorie"
+                component={Categorie}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: '#7571f9'
+                    },
+                    headerTitleStyle: {
+                        color: '#ffffff',
+                        fontWeight: 'bold'
+                    }
+                }}
             />
         </StackAccueil.Navigator>
     )
@@ -155,19 +193,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     drawer_style: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#7571f9',
         margin: 0
     },
-    logo: {
-        height: 30,
-        alignSelf: 'center'
-    },
-    background_logo: {
-        margin: 0,
-        height:50
-    },
     custom_drawer: {
-        backgroundColor: '#7571f9',
+        backgroundColor: '#ffffff',
         flex: 1
     }
 })
