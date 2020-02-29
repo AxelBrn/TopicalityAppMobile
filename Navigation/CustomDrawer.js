@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View, Text, FlatList} from "react-native"
 import { getAllCategoriesFromAPI } from '../Api/categorieApi'
+import { connect } from 'react-redux'
 
 
 class CustomDrawer extends React.Component {
@@ -68,6 +69,26 @@ class CustomDrawer extends React.Component {
         }))
     }
 
+    _isConnected() {
+        if(this.props.user !== undefined) {
+            return (
+                <TouchableOpacity
+                    style={styles.button_drawer_categorie}
+                    onPress={() => {
+                        const action = { type: "TOGGLE_USER", value: undefined }
+                        this.props.dispatch(action)
+                    }}
+                >
+                    <Image
+                        source={require('../Images/off.png')}
+                        style={styles.icon}
+                    />
+                    <Text style={styles.text_style} >Se deconnecter</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
     render() {
         return (
             <View>
@@ -99,6 +120,7 @@ class CustomDrawer extends React.Component {
                             )}
                         />
                     </View>
+                    {this._isConnected()}
                 </View>
             </View>
         )
@@ -141,4 +163,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CustomDrawer
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(CustomDrawer)
