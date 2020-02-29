@@ -78,7 +78,6 @@ class ArticleDetail extends React.Component{
                 {this._displayLoading()}
                 {this._displayArticle()}
             </View>
-
         )
     }
 }
@@ -142,6 +141,7 @@ const styles = StyleSheet.create({
     images: {
         height: 200,
         marginLeft: 5,
+        marginRight: 5,
         marginBottom: 5
     },
     contenu_article: {
