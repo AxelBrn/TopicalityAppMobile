@@ -25,14 +25,17 @@ class ArticleDetail extends React.Component{
     }
 
     _displayImageArticle(image) {
-        if((image !== null)||(image.indexOf('/tmp/') === -1)){
-            return (
-                <Image
-                    style={styles.images}
-                    source={{uri: getImageFromAPI(image)}}
-                />
+        if((image == null)||(image.indexOf('/tmp/') !== -1)){
+            return(
+                <Image/>
             )
         }
+        return (
+            <Image
+                style={styles.images}
+                source={{uri: getImageFromAPI(image)}}
+            />
+        )
     }
 
     componentDidMount() {
