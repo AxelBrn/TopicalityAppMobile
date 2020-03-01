@@ -20,9 +20,9 @@ class ArticleDetail extends React.Component{
     }
 
     _displayLireImage() {
-        var sourceImage = require('../Images/BookmarkLire.png')
+        var sourceImage = require('../Images/BookmarkPasLire.png')
         if (this.props.articlesALire.findIndex(item => item.id === this.state.article.id) !== -1) {
-            sourceImage = require('../Images/bookmarkPasLire.png')
+            sourceImage = require('../Images/BookmarkLire.png')
         }
         return (
             <Image
@@ -69,13 +69,13 @@ class ArticleDetail extends React.Component{
         if (this.state.article !== undefined){
             return(
                 <ScrollView style={styles.scrollview_article}>
+                    <Text style={styles.titre_article}>{this.state.article.nom}</Text>
+                    {this._displayImageArticle(this.state.article.image)}
                     <TouchableOpacity
                         style={styles.lire_PlusTard}
                         onPress={() => this._toggleALirePlusTard()}>
                         {this._displayLireImage()}
                     </TouchableOpacity>
-                    <Text style={styles.titre_article}>{this.state.article.nom}</Text>
-                    {this._displayImageArticle(this.state.article.image)}
                     <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
                     <View style={styles.contenu_article}>
                         <Markdown>
