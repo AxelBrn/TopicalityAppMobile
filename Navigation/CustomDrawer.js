@@ -77,6 +77,7 @@ class CustomDrawer extends React.Component {
                     onPress={() => {
                         const action = { type: "TOGGLE_USER", value: undefined }
                         this.props.dispatch(action)
+                        this.props.navigation.closeDrawer()
                     }}
                 >
                     <Image
