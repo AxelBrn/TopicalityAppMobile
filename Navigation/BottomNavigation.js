@@ -1,10 +1,11 @@
 import React from 'react'
-import {Image, StyleSheet} from 'react-native';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import StackAccueil from './StackAccueil';
-import StackConnexion from './StackMesArticles';
-import ALirePlusTard from '../Components/ALirePlusTard';
-import {connect} from 'react-redux';
+import {Image, StyleSheet} from 'react-native'
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
+import StackAccueil from './StackAccueil'
+import StackConnexion from './StackMesArticles'
+import ALirePlusTard from '../Components/ALirePlusTard'
+import {connect} from 'react-redux'
+import MesInformations from '../Components/MesInformations'
 
 const BottomNav = createMaterialBottomTabNavigator()
 
@@ -15,14 +16,14 @@ class BottomNavigation extends React.Component {
             return (
                 <BottomNav.Screen
                     name="Lire"
-                    component={ALirePlusTard}
+                    component={MesInformations}
                     options={{
                         tabBarIcon: () => {
                             return <Image
-                                source={require('../Images/plus_tard.png')}
+                                source={require('../Images/my_info.png')}
                                 style={styles.icon}/>
                         },
-                        tabBarColor: '#ef890f'
+                        tabBarColor: '#eb9b3c'
                     }}
                 />
             )

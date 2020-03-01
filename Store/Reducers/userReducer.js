@@ -20,6 +20,7 @@ function toggleUser(state = initialState, action) {
                 }
             }
             return nextState || state
+
         case 'TOGGLE_PLUS_TARD':
             const articlesALireIndex = state.articlesALire.findIndex(item => item.id === action.value.id)
             if (articlesALireIndex !== -1) {
@@ -29,13 +30,13 @@ function toggleUser(state = initialState, action) {
                 }
             }
             else {
-                // Le film n'est pas dans les films favoris, on l'ajoute à la liste
                 nextState = {
                     ...state,
                     articlesALire: [...state.articlesALire, action.value]
                 }
             }
             return nextState || state
+
         default:
             return state
     }
