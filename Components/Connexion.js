@@ -75,6 +75,7 @@ class Connexion extends React.Component {
                             placeholderTextColor={'#4e94f3'}
                             secureTextEntry={true}
                             onChangeText={(text) => this._passwordTextInputChanged(text)}
+                            autoCapitalize='none'
                         />
                     </View>
                     <TouchableOpacity
