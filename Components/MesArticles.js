@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
 import { connect } from 'react-redux'
 import {getArticleByUser} from '../Api/articleApi'
 import ArticleList from './ArticleList';
@@ -18,11 +18,16 @@ class MesArticles extends React.Component {
         if(this.props.user === undefined) {
             return (
                 <View style={styles.bouton_connecter}>
-                    <Text>Vous n'êtes pas connecté</Text>
+                    <Image
+                        source={require('../Images/news.png')}
+                        style={styles.mesArticles}
+                        />
+                    <Text style={styles.Connecte_vous}>Si vous souhaitez accéder à vos articles veuilliez vous connecter </Text>
                     <TouchableOpacity
+                        style={styles.bouton_connexion}
                         onPress={() => this.props.navigation.navigate('Connexion')}
                     >
-                        <Text>Se Connecter</Text>
+                        <Text style={styles.textButon}>Se Connecter</Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -68,7 +73,35 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-}
+},
+    bouton_connexion: {
+        borderRadius: 50,
+        borderWidth :2,
+        marginBottom: 10,
+        borderColor: '#4e94f3',
+        width: 320,
+        height: 50,
+        alignSelf: 'center',
+        backgroundColor: '#4e94f3',
+        marginTop : 60
+    },
+    textButon: {
+        textAlign: 'center',
+        marginTop: 10,
+        color: 'white',
+        fontSize: 17
+    },
+    Connecte_vous : {
+        textAlign: 'center',
+        color: 'gray',
+        fontWeight: 'bold',
+        fontSize: 20
+    },
+    mesArticles : {
+        height: 125,
+        width: 125,
+        marginBottom: 50
+    }
 })
 
 const mapStateToProps = state => {
