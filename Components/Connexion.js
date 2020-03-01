@@ -61,6 +61,7 @@ class Connexion extends React.Component {
                             placeholder='Username'
                             placeholderTextColor={'#4e94f3'}
                             onChangeText={(text) => this._userMailTextInputChanged(text)}
+                            autoCapitalize='none'
                         />
                     </View>
                     <View style={styles.password_connexion}>
