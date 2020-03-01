@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableO
 import {getImageFromAPI, getArticleByIdFromAPI} from '../Api/articleApi'
 import Hyperlink from 'react-native-hyperlink'
 import Markdown from 'react-native-markdown-package'
+import { connect } from 'react-redux'
 
 class ArticleDetail extends React.Component{
 
@@ -12,6 +13,23 @@ class ArticleDetail extends React.Component{
             article: undefined,
             isLoading: true
         }
+    }
+    _toggleALirePlusTard() {
+        const action = { type: "TOGGLE_PLUS_TARD", value: this.state.article }
+        this.props.dispatch(action)
+    }
+
+    _displayLireImage() {
+        var sourceImage = require('../Images/BookmarkLire.png')
+        if (this.props.articlesALire.findIndex(item => item.id === this.state.article.id) !== -1) {
+            sourceImage = require('../Images/bookmarkPasLire.png')
+        }
+        return (
+            <Image
+                style={styles.lire_image}
+                source={sourceImage}
+            />
+        )
     }
 
     _displayLoading() {
@@ -51,6 +69,11 @@ class ArticleDetail extends React.Component{
         if (this.state.article !== undefined){
             return(
                 <ScrollView style={styles.scrollview_article}>
+                    <TouchableOpacity
+                        style={styles.lire_PlusTard}
+                        onPress={() => this._toggleALirePlusTard()}>
+                        {this._displayLireImage()}
+                    </TouchableOpacity>
                     <Text style={styles.titre_article}>{this.state.article.nom}</Text>
                     {this._displayImageArticle(this.state.article.image)}
                     <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
@@ -147,7 +170,20 @@ const styles = StyleSheet.create({
     contenu_article: {
         marginRight: 5,
         marginLeft: 5,
+    },
+    lire_PlusTard: {
+        alignItems: 'center'
+    },
+    lire_image: {
+        width: 40,
+        height: 40
     }
 })
 
-export default ArticleDetail
+const mapStateToProps = (state) => {
+    return {
+        articlesALire: state.articlesALire
+    }
+}
+
+export default connect (mapStateToProps)(ArticleDetail)

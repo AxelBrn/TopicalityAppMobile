@@ -1,25 +1,19 @@
 import React from 'react'
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 class ALirePlusTard extends React.Component {
 
     render() {
         return (
-            <View style={styles.view}>
-                <Text style={styles.text}>Functionality will be added in the future</Text>
+            <View>
+                <Text>je suis un fdp à vouloir te modifier</Text>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    view: {
-        flex: 1,
-        justifyContent: 'center'
-    },
-    text: {
-        textAlign: 'center'
-    }
+
 })
 
 export default ALirePlusTard

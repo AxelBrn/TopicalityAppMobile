@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     },
     globale_article: {
         flexDirection: 'row',
-}
+},
 });
 
 export default ArticleItem
