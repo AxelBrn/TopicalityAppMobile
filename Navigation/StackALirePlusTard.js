@@ -1,38 +1,39 @@
 import React from 'react'
 import {StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import MesArticles from '../Components/MesArticles';
-import Connexion from '../Components/Connexion';
+import ALirePlusTard from '../Components/ALirePlusTard';
+import ArticleDetail from '../Components/ArticleDetail';
 
-const StackConnexionComponent = createStackNavigator()
 
-class StackMesArticles extends React.Component {
+const StackArticlesALire = createStackNavigator()
+
+class StackALirePlusTard extends React.Component {
 
     render() {
         return (
-            <StackConnexionComponent.Navigator>
-                <StackConnexionComponent.Screen
-                    name="MesArticles"
-                    component={MesArticles}
+            <StackArticlesALire.Navigator>
+                <StackArticlesALire.Screen
+                    name="LirePlusTard"
+                    component={ALirePlusTard}
                     options={{
                         headerTitleAlign: 'center',
                         headerStyle: {
-                            backgroundColor: '#4e94f3'
+                            backgroundColor: '#ff5050'
                         },
                         headerTitleStyle: {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         },
-                        title: 'Mes articles'
+                        title: 'Lire plus tard'
                     }}
                 />
-                <StackConnexionComponent.Screen
-                    name="Connexion"
-                    component={Connexion}
+                <StackArticlesALire.Screen
+                    name="Detail"
+                    component={ArticleDetail}
                     options={{
                         headerTitleAlign: 'center',
                         headerStyle: {
-                            backgroundColor: '#4e94f3'
+                            backgroundColor: '#ff5050'
                         },
                         headerTitleStyle: {
                             color: '#ffffff',
@@ -40,7 +41,7 @@ class StackMesArticles extends React.Component {
                         }
                     }}
                 />
-            </StackConnexionComponent.Navigator>
+            </StackArticlesALire.Navigator>
         )
     }
 }
@@ -57,4 +58,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default StackMesArticles
+export default StackALirePlusTard

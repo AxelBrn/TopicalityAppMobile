@@ -6,6 +6,7 @@ import StackConnexion from './StackMesArticles'
 import ALirePlusTard from '../Components/ALirePlusTard'
 import {connect} from 'react-redux'
 import MesInformations from '../Components/MesInformations'
+import StackALirePlusTard from './StackALirePlusTard';
 
 const BottomNav = createMaterialBottomTabNavigator()
 
@@ -62,7 +63,7 @@ class BottomNavigation extends React.Component {
                 />
                 <BottomNav.Screen
                     name="LirePlusTard"
-                    component={ALirePlusTard}
+                    component={StackALirePlusTard}
                     options={{
                         tabBarIcon: () => {
                             return <Image

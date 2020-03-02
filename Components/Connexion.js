@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native'
+import {StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView} from 'react-native'
 import base64 from 'react-native-base64'
 import { getUserIfConnected } from '../Api/connexionApi'
 import { connect } from 'react-redux'
@@ -44,7 +44,7 @@ class Connexion extends React.Component {
         if(this.state.user === undefined) {
             this.index = 0
             return (
-                <View style={{backgroundColor: 'white', flex: 1}}>
+                <ScrollView style={{backgroundColor: 'white'}}>
                     <View style={styles.image}>
                         <Image
                             style={styles.image_connexion}
@@ -58,7 +58,7 @@ class Connexion extends React.Component {
                         />
                         <TextInput
                             style={styles.textConnexion}
-                            placeholder='Username'
+                            placeholder='Adresse mail'
                             placeholderTextColor={'#4e94f3'}
                             onChangeText={(text) => this._userMailTextInputChanged(text)}
                             autoCapitalize='none'
@@ -71,7 +71,7 @@ class Connexion extends React.Component {
                         />
                         <TextInput
                             style={styles.textConnexion}
-                            placeholder='Password'
+                            placeholder='Mot de passe'
                             placeholderTextColor={'#4e94f3'}
                             secureTextEntry={true}
                             onChangeText={(text) => this._passwordTextInputChanged(text)}
@@ -82,9 +82,9 @@ class Connexion extends React.Component {
                         style={styles.bouton_connexion}
                         onPress={() => this._encryptPassword()}
                     >
-                        <Text style={styles.textButon}>Login Now</Text>
+                        <Text style={styles.textButon}>Connexion</Text>
                     </TouchableOpacity>
-                </View>
+                </ScrollView>
             )
         }
         else {
@@ -131,7 +131,9 @@ const styles = StyleSheet.create({
     textButon: {
         textAlign: 'center',
         marginTop: 10,
-        color: 'white'
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 18
     },
     textConnexion: {
         textAlign: 'center',

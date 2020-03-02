@@ -47,13 +47,15 @@ class MesArticles extends React.Component {
     _displayMesArticles () {
         if(this.props.user !== undefined) {
             this._loadMesArticles()
-            return(
-                <ArticleList
-                    navigation={this.props.navigation}
-                    articles={this.state.mesArticles}
-                    isLoading={this.state.isLoading}
-                />
-            )
+            if(this.state.mesArticles !== null) {
+                return (
+                    <ArticleList
+                        navigation={this.props.navigation}
+                        articles={this.state.mesArticles}
+                        isLoading={this.state.isLoading}
+                    />
+                )
+            }
         }
 
     }
@@ -95,7 +97,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'gray',
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 20,
+        marginRight: 5,
+        marginLeft: 5
     },
     mesArticles : {
         height: 125,
