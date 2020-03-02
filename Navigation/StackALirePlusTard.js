@@ -38,7 +38,8 @@ class StackALirePlusTard extends React.Component {
                         headerTitleStyle: {
                             color: '#ffffff',
                             fontWeight: 'bold'
-                        }
+                        },
+                        title: 'Détail'
                     }}
                 />
             </StackArticlesALire.Navigator>

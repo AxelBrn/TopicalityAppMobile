@@ -1,7 +1,6 @@
 import React from 'react'
-import {StyleSheet, FlatList, View, Text, ActivityIndicator, TouchableOpacity, ScrollView, } from 'react-native';
+import {StyleSheet, FlatList, View, ActivityIndicator } from 'react-native';
 import ArticleItem from './ArticleItem';
-import { getAllArticlesFromAPI} from '../Api/articleApi'
 
 class ArticleList extends React.Component{
 

@@ -1,8 +1,19 @@
 import React from 'react'
-import {StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator} from 'react-native'
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native'
 import { getImageFromAPI} from '../Api/articleApi'
+import { connect } from 'react-redux'
 
 class ArticleItem extends React.Component{
+
+    constructor() {
+        super()
+        this.state = { buttonLireIsActive : false}
+    }
+
+    _toggleALirePlusTard() {
+        const action = { type: "TOGGLE_PLUS_TARD", value: this.props.article }
+        this.props.dispatch(action)
+    }
 
     _displayImage(image) {
         if((image == null)||(image.indexOf('/tmp/') !== -1)){
@@ -21,26 +32,68 @@ class ArticleItem extends React.Component{
         )
     }
 
+    _displayLireImage() {
+        var sourceImage = require('../Images/BookmarkPasLire.png')
+        if (this.props.articlesALire.findIndex(item => item.id === this.props.article.id) !== -1) {
+            sourceImage = require('../Images/BookmarkLire.png')
+        }
+        return (
+            <Image
+                style={styles.lire_image}
+                source={sourceImage}
+            />
+        )
+    }
+
+    _displayButtonALirePlusTard () {
+        if(this.state.buttonLireIsActive) {
+            return(
+                <View style={styles.button_container}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this._toggleALirePlusTard()
+                            setTimeout(() => {
+                                this.setState({
+                                    buttonLireIsActive: false
+                                })
+                            }, 500)
+                        }}
+                    >
+                        {this._displayLireImage()}
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+    }
+
+
     render() {
         const {article, displayArticle} = this.props;
         return (
-            <TouchableOpacity
-                style={styles.corps}
-                onPress={() => displayArticle(article.id)}>
-                <View style={styles.globale_article}>
-                    {this._displayImage(article.image)}
-                    <View style={styles.main_article}>
-                        <Text style={styles.titre_article}>{article.nom}</Text>
-                        <Text style={styles.description_article} numberOfLines={4}>{article.sous_titre}</Text>
+            <View>
+                <TouchableOpacity
+                    style={styles.corps}
+                    delayLongPress={500}
+                    onLongPress={()=>{this.setState({
+                        buttonLireIsActive: true
+                    })}}
+                    onPress={() => displayArticle(article.id)}>
+                    <View style={styles.globale_article}>
+                        {this._displayImage(article.image)}
+                        <View style={styles.main_article}>
+                            <Text style={styles.titre_article}>{article.nom}</Text>
+                            <Text style={styles.description_article} numberOfLines={4}>{article.sous_titre}</Text>
+                        </View>
                     </View>
-                </View>
 
-                <View style={styles.contenu_article}>
-                    <Text style={styles.auteur_article}>{article.u_nom} {article.u_prenom}</Text>
-                    <Text style={styles.publie_article}>{article.datetime}</Text>
-                    <Text style={styles.categorie_article}>{article.libelle}</Text>
-                </View>
-            </TouchableOpacity>
+                    <View style={styles.contenu_article}>
+                        <Text style={styles.auteur_article}>{article.u_nom} {article.u_prenom}</Text>
+                        <Text style={styles.publie_article}>{article.datetime}</Text>
+                        <Text style={styles.categorie_article}>{article.libelle}</Text>
+                    </View>
+                </TouchableOpacity>
+                {this._displayButtonALirePlusTard()}
+            </View>
         )
     }
 
@@ -48,10 +101,10 @@ class ArticleItem extends React.Component{
 const styles = StyleSheet.create({
     corps: {
         marginTop: 10,
-        marginBottom: 5,
         borderBottomWidth: 0.5,
         borderBottomColor: 'gray',
-        paddingBottom: 10
+        paddingBottom: 10,
+        height: 140
     },
     images: {
         width: 300,
@@ -103,7 +156,27 @@ const styles = StyleSheet.create({
     },
     globale_article: {
         flexDirection: 'row',
-},
+    },
+    button_container: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(175, 175, 175, 0.7)'
+    },
+    lire_image: {
+        width: 55,
+        height: 55
+    }
 });
 
-export default ArticleItem
+const mapStateToProps = (state) => {
+    return {
+        articlesALire: state.articlesALire
+    }
+}
+
+export default connect (mapStateToProps)(ArticleItem)

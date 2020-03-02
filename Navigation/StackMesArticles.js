@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import MesArticles from '../Components/MesArticles';
 import Connexion from '../Components/Connexion';
+import ArticleDetail from '../Components/ArticleDetail';
 
 const StackConnexionComponent = createStackNavigator()
 
@@ -38,6 +39,21 @@ class StackMesArticles extends React.Component {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         }
+                    }}
+                />
+                <StackConnexionComponent.Screen
+                    name="Detail"
+                    component={ArticleDetail}
+                    options={{
+                        headerTitleAlign: 'center',
+                        headerStyle: {
+                            backgroundColor: '#4e94f3'
+                        },
+                        headerTitleStyle: {
+                            color: '#ffffff',
+                            fontWeight: 'bold'
+                        },
+                        title: 'Détail'
                     }}
                 />
             </StackConnexionComponent.Navigator>
