@@ -28,6 +28,9 @@ class Connexion extends React.Component {
         getUserIfConnected(mail, password).then(data => this.setState({
             user: data[0]
         }))
+        this.setState({
+            isConnectionFail: true
+        })
     }
 
     _toggleUser() {
@@ -37,6 +40,23 @@ class Connexion extends React.Component {
 
     _passwordTextInputChanged(text) {
         this.passwordText = text
+    }
+
+    _displayErreur () {
+        if(this.state.isConnectionFail){
+            return {
+                textAlign: 'center',
+                fontWeight: 'bold',
+                marginTop: 5,
+                color: 'red'
+            }
+        }
+        return {
+            textAlign: 'center',
+            fontWeight: 'bold',
+            marginTop: 5,
+            color: 'white'
+        }
     }
 
     _userMailTextInputChanged(text) {
@@ -54,6 +74,7 @@ class Connexion extends React.Component {
                             source={require('../Images/account.png')}
                         />
                     </View>
+                    <Text style={this._displayErreur()}>Adresse mail ou mot de passe incorrect !</Text>
                     <View style={styles.username_connexion}>
                         <Image
                             style={styles.image_username}
@@ -83,7 +104,10 @@ class Connexion extends React.Component {
                     </View>
                     <TouchableOpacity
                         style={styles.bouton_connexion}
-                        onPress={() => this._encryptPassword()}
+                        onPress={() => {
+                            this.index = 1
+                            this._encryptPassword()
+                        }}
                     >
                         <Text style={styles.textButon}>Connexion</Text>
                     </TouchableOpacity>
@@ -183,7 +207,7 @@ const styles = StyleSheet.create({
         height: 25,
         flex: 1,
         marginLeft: 10
-    },
+    }
 })
 
 const mapStateToProps = state => {

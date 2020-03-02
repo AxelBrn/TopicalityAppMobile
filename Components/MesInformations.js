@@ -32,7 +32,7 @@ class MesInformations extends React.Component {
                 </View>
                 <TouchableOpacity
                     style={styles.bouton_editer}
-                    onPress={() => this.props.navigation.navigate('Editer')}
+                    onPress={() => this.props.navigation.navigate('ModifierProfil')}
                 >
                     <Text style={styles.textButon}>Éditer le profil</Text>
                 </TouchableOpacity>

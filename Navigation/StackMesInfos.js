@@ -1,10 +1,9 @@
 import React from 'react'
-import {StyleSheet} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import MesArticles from '../Components/MesArticles';
-import Connexion from '../Components/Connexion';
-import ArticleDetail from '../Components/ArticleDetail';
-import MesInformations from '../Components/MesInformations';
+import MesInformations from '../Components/MesInformations'
+import {connect} from 'react-redux'
+import ModifierProfil from '../Components/ModifierProfil'
 
 const StackMesInfosComponent = createStackNavigator()
 
@@ -25,7 +24,38 @@ class StackMesInfos extends React.Component {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         },
-                        title: 'Mes informations'
+                        title: 'Mes informations',
+                        headerRight: () => {
+                            return (
+                                <TouchableOpacity
+                                    style={styles.button_burger}
+                                    activeOpacity={1}
+                                    onPress={() => {
+                                        const action = { type: "TOGGLE_USER", value: undefined }
+                                        this.props.dispatch(action)
+                                    }}
+                                >
+                                    <Image
+                                        source={require('../Images/power-button.png')}
+                                        style={styles.icon}/>
+                                </TouchableOpacity>
+                            )
+                        }
+                    }}
+                />
+                <StackMesInfosComponent.Screen
+                    name="ModifierProfil"
+                    component={ModifierProfil}
+                    options={{
+                        headerTitleAlign: 'center',
+                        headerStyle: {
+                            backgroundColor: '#eb9b3c'
+                        },
+                        headerTitleStyle: {
+                            color: '#ffffff',
+                            fontWeight: 'bold'
+                        },
+                        title: 'Editer le profil'
                     }}
                 />
             </StackMesInfosComponent.Navigator>
@@ -39,10 +69,16 @@ const styles = StyleSheet.create({
         height: 30
     },
     button_burger: {
-        marginLeft:10,
+        marginRight:10,
         textAlign: 'center',
         alignItems: 'center'
     }
 })
 
-export default StackMesInfos
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(StackMesInfos)
