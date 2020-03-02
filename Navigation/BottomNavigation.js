@@ -3,10 +3,9 @@ import {Image, StyleSheet} from 'react-native'
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
 import StackAccueil from './StackAccueil'
 import StackConnexion from './StackMesArticles'
-import ALirePlusTard from '../Components/ALirePlusTard'
 import {connect} from 'react-redux'
-import MesInformations from '../Components/MesInformations'
 import StackALirePlusTard from './StackALirePlusTard';
+import StackMesInfos from './StackMesInfos';
 
 const BottomNav = createMaterialBottomTabNavigator()
 
@@ -17,7 +16,7 @@ class BottomNavigation extends React.Component {
             return (
                 <BottomNav.Screen
                     name="Lire"
-                    component={MesInformations}
+                    component={StackMesInfos}
                     options={{
                         tabBarIcon: () => {
                             return <Image

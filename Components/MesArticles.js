@@ -9,8 +9,7 @@ class MesArticles extends React.Component {
         super();
         this.state = {
             mesArticles: [],
-            isLoading : true,
-            index : 0
+            isLoading : true
         }
     }
 
@@ -35,13 +34,11 @@ class MesArticles extends React.Component {
     }
 
     _loadMesArticles() {
-        if(this.state.index === 0) {
             getArticleByUser(this.props.user.id).then(data => this.setState({
                 mesArticles : data,
-                isLoading : false,
-                index : 1
+                isLoading : false
             }))
-        }
+
     }
 
     _displayMesArticles () {
@@ -56,6 +53,11 @@ class MesArticles extends React.Component {
                     />
                 )
             }
+        return (
+            <View style={{justifyContent: 'center', flex: 1}}>
+                <Text style={styles.text}>Vous n'avez pas encore publié d'articles !</Text>
+            </View>
+        )
         }
 
     }
@@ -105,6 +107,13 @@ const styles = StyleSheet.create({
         height: 125,
         width: 125,
         marginBottom: 50
+    },
+    text: {
+        marginTop: 15,
+        color:'gray',
+        fontWeight: 'bold',
+        fontSize: 20,
+        textAlign: 'center'
     }
 })
 

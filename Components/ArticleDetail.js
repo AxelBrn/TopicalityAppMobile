@@ -56,6 +56,10 @@ class ArticleDetail extends React.Component{
         )
     }
 
+    _setFormatDate(date) {
+        return date.substr(8,2) + '/' + date.substr(5,2) + '/' + date.substr(0,4)
+    }
+
     componentDidMount() {
         getArticleByIdFromAPI(this.props.route.params.idArticle).then(data => {
             this.setState({
@@ -87,7 +91,7 @@ class ArticleDetail extends React.Component{
                     </Hyperlink>
                     <Text style={styles.auteur_article}>{this.state.article.u_nom} {this.state.article.u_prenom}</Text>
                     <View style={styles.caracteristique_article}>
-                        <Text style={styles.publie_article}>{this.state.article.datetime}</Text>
+                        <Text style={styles.publie_article}>{this._setFormatDate(this.state.article.datetime)}</Text>
                         <Text style={styles.categorie_article}>{this.state.article.libelle}</Text>
                     </View>
                 </ScrollView>

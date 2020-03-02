@@ -24,3 +24,8 @@ export function getArticleByUser (idUser) {
 export function getImageFromAPI (name) {
     return 'https://www.topicality.fr/uploads/images/' + name
 }
+
+export function getCountArticlesByUser (idUser) {
+    return fetch(URL_BASE + API_TOKEN + 'article.php?countById=' + idUser).then((response) => response.json())
+        .catch((error) => console.error(error));
+}

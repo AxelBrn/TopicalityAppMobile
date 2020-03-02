@@ -1,7 +1,6 @@
 import React from 'react'
-import {StyleSheet, View, Text} from 'react-native';
-import ArticleList from './ArticleList';
-//Ajout du connect
+import {StyleSheet, View, Text} from 'react-native'
+import ArticleList from './ArticleList'
 import { connect } from 'react-redux'
 
 class ALirePlusTard extends React.Component {
@@ -16,19 +15,18 @@ class ALirePlusTard extends React.Component {
                 />
             )
         }
-        else{
-            return (
-                <View style={styles.main_container}>
-                    <Text style={styles.text}>Vous n'avez aucun article à lire pour le moment</Text>
-                </View>
-            )
-        }
+        return (
+            <View style={styles.main_container}>
+                <Text style={styles.text}>Vous n'avez aucun article à lire pour le moment</Text>
+            </View>
+        )
     }
 }
 
 const styles = StyleSheet.create({
     main_container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center'
     },
     text: {
         marginTop: 15,

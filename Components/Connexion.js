@@ -11,7 +11,10 @@ class Connexion extends React.Component {
         this.passwordText = ""
         this.userMailText = ""
         this.index = 0
-        this.state = { user: undefined}
+        this.state = {
+            user: undefined,
+            isConnectionFail: false
+        }
     }
 
     _encryptPassword() {
@@ -48,7 +51,7 @@ class Connexion extends React.Component {
                     <View style={styles.image}>
                         <Image
                             style={styles.image_connexion}
-                            source={require('../Images/logo-compte.png')}
+                            source={require('../Images/account.png')}
                         />
                     </View>
                     <View style={styles.username_connexion}>

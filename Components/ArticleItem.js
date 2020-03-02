@@ -66,6 +66,10 @@ class ArticleItem extends React.Component{
         }
     }
 
+    _setFormatDate(date) {
+        return date.substr(8,2) + '/' + date.substr(5,2) + '/' + date.substr(0,4)
+    }
+
 
     render() {
         const {article, displayArticle} = this.props;
@@ -88,7 +92,7 @@ class ArticleItem extends React.Component{
 
                     <View style={styles.contenu_article}>
                         <Text style={styles.auteur_article}>{article.u_nom} {article.u_prenom}</Text>
-                        <Text style={styles.publie_article}>{article.datetime}</Text>
+                        <Text style={styles.publie_article}>{this._setFormatDate(article.datetime)}</Text>
                         <Text style={styles.categorie_article}>{article.libelle}</Text>
                     </View>
                 </TouchableOpacity>
