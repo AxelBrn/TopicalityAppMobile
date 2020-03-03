@@ -48,7 +48,14 @@ class ArticleItem extends React.Component{
     _displayButtonALirePlusTard () {
         if(this.state.buttonLireIsActive) {
             return(
-                <View style={styles.button_container}>
+                <TouchableOpacity
+                    style={styles.button_container}
+                    onPress={() => {
+                        this.setState({
+                            buttonLireIsActive: false
+                        })
+                    }}
+                >
                     <TouchableOpacity
                         onPress={() => {
                             this._toggleALirePlusTard()
@@ -61,7 +68,7 @@ class ArticleItem extends React.Component{
                     >
                         {this._displayLireImage()}
                     </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
             )
         }
     }
@@ -169,11 +176,19 @@ const styles = StyleSheet.create({
         bottom: 0,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(175, 175, 175, 0.7)'
+        backgroundColor: 'rgba(175, 175, 175, 0.7)',
     },
     lire_image: {
         width: 55,
         height: 55
+    },
+    logo_close: {
+        width: 30,
+        height: 30
+    },
+    button_close: {
+        position: 'absolute',
+        right: 30
     }
 });
 

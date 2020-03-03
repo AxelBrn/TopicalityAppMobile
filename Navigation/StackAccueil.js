@@ -52,7 +52,8 @@ class StackAccueil extends React.Component {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         },
-                        title: 'Détail'
+                        title: 'Détail',
+                        headerTintColor: '#ffffff'
                     }}
                 />
                 <StackAccueilComponent.Screen
@@ -67,7 +68,8 @@ class StackAccueil extends React.Component {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         },
-                        title: 'Catégorie'
+                        title: 'Catégorie',
+                        headerTintColor: '#ffffff'
                     }}
                 />
             </StackAccueilComponent.Navigator>

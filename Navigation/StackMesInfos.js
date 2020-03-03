@@ -55,7 +55,8 @@ class StackMesInfos extends React.Component {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         },
-                        title: 'Editer le profil'
+                        title: 'Editer le profil',
+                        headerTintColor: '#ffffff'
                     }}
                 />
             </StackMesInfosComponent.Navigator>

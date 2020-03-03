@@ -38,7 +38,8 @@ class StackMesArticles extends React.Component {
                         headerTitleStyle: {
                             color: '#ffffff',
                             fontWeight: 'bold'
-                        }
+                        },
+                        headerTintColor: '#ffffff'
                     }}
                 />
                 <StackConnexionComponent.Screen
@@ -53,7 +54,8 @@ class StackMesArticles extends React.Component {
                             color: '#ffffff',
                             fontWeight: 'bold'
                         },
-                        title: 'Détail'
+                        title: 'Détail',
+                        headerTintColor: '#ffffff'
                     }}
                 />
             </StackConnexionComponent.Navigator>
