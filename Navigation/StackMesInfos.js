@@ -18,7 +18,7 @@ class StackMesInfos extends React.Component {
                     options={{
                         headerTitleAlign: 'center',
                         headerStyle: {
-                            backgroundColor: '#eb9b3c'
+                            backgroundColor: '#ff7328'
                         },
                         headerTitleStyle: {
                             color: '#ffffff',

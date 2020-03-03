@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 3,
         height: 40,
-        borderColor: '#eb9b3c',
+        borderColor: '#ff7328',
         flexDirection: 'row',
         alignItems: 'center'
     },
     text_count_left : {
         flex: 1,
         textAlign: 'center',
-        borderColor: '#eb9b3c',
+        borderColor: '#ff7328',
         borderRightWidth: 1.5,
         height: 40,
         textAlignVertical: 'center',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     text_count_right : {
         flex: 1,
         textAlign: 'center',
-        borderColor: '#eb9b3c',
+        borderColor: '#ff7328',
         borderLeftWidth: 1.5,
         height: 40,
         textAlignVertical: 'center',
@@ -102,11 +102,11 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth :2,
         marginBottom: 10,
-        borderColor: '#eb9b3c',
+        borderColor: '#ff7328',
         width: 320,
         height: 50,
         alignSelf: 'center',
-        backgroundColor: '#eb9b3c',
+        backgroundColor: '#ff7328',
         marginTop : 70
     },
     textButon: {

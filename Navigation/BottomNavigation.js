@@ -23,7 +23,7 @@ class BottomNavigation extends React.Component {
                                 source={require('../Images/my_info.png')}
                                 style={styles.icon}/>
                         },
-                        tabBarColor: '#eb9b3c'
+                        tabBarColor: '#ff7328'
                     }}
                 />
             )
