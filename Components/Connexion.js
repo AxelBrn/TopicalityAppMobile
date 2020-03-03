@@ -26,11 +26,9 @@ class Connexion extends React.Component {
 
     _verifConnexion (mail, password) {
         getUserIfConnected(mail, password).then(data => this.setState({
-            user: data[0]
-        }))
-        this.setState({
+            user: data[0],
             isConnectionFail: true
-        })
+        }))
     }
 
     _toggleUser() {
@@ -66,53 +64,12 @@ class Connexion extends React.Component {
     _displayConnexionComponent() {
         if(this.state.user === undefined) {
             this.index = 0
-            return (
-                <ScrollView style={{backgroundColor: 'white'}}>
-                    <View style={styles.image}>
-                        <Image
-                            style={styles.image_connexion}
-                            source={require('../Images/account.png')}
-                        />
-                    </View>
-                    <Text style={this._displayErreur()}>Adresse mail ou mot de passe incorrect !</Text>
-                    <View style={styles.username_connexion}>
-                        <Image
-                            style={styles.image_username}
-                            source={require('../Images/user.png')}
-                        />
-                        <TextInput
-                            style={styles.textConnexion}
-                            placeholder='Adresse mail'
-                            placeholderTextColor={'#4e94f3'}
-                            onChangeText={(text) => this._userMailTextInputChanged(text)}
-                            autoCapitalize='none'
-                        />
-                    </View>
-                    <View style={styles.password_connexion}>
-                        <Image
-                            style={styles.image_password}
-                            source={require('../Images/lock.png')}
-                        />
-                        <TextInput
-                            style={styles.textConnexion}
-                            placeholder='Mot de passe'
-                            placeholderTextColor={'#4e94f3'}
-                            secureTextEntry={true}
-                            onChangeText={(text) => this._passwordTextInputChanged(text)}
-                            autoCapitalize='none'
-                        />
-                    </View>
-                    <TouchableOpacity
-                        style={styles.bouton_connexion}
-                        onPress={() => {
-                            this.index = 1
-                            this._encryptPassword()
-                        }}
-                    >
-                        <Text style={styles.textButon}>Connexion</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            )
+        }
+        else if (this.state.isConnectionFail) {
+            this.index = 0
+            this.setState({
+                isConnectionFail: false
+            })
         }
         else {
             if(this.index === 0){
@@ -125,9 +82,52 @@ class Connexion extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <ScrollView style={{backgroundColor: 'white'}}>
                 {this._displayConnexionComponent()}
-            </View>
+                <View style={styles.image}>
+                    <Image
+                        style={styles.image_connexion}
+                        source={require('../Images/account.png')}
+                    />
+                </View>
+                <Text style={this._displayErreur()}>Adresse mail ou mot de passe incorrect !</Text>
+                <View style={styles.username_connexion}>
+                    <Image
+                        style={styles.image_username}
+                        source={require('../Images/user.png')}
+                    />
+                    <TextInput
+                        style={styles.textConnexion}
+                        placeholder='Adresse mail'
+                        placeholderTextColor={'#4e94f3'}
+                        onChangeText={(text) => this._userMailTextInputChanged(text)}
+                        autoCapitalize='none'
+                    />
+                </View>
+                <View style={styles.password_connexion}>
+                    <Image
+                        style={styles.image_password}
+                        source={require('../Images/lock.png')}
+                    />
+                    <TextInput
+                        style={styles.textConnexion}
+                        placeholder='Mot de passe'
+                        placeholderTextColor={'#4e94f3'}
+                        secureTextEntry={true}
+                        onChangeText={(text) => this._passwordTextInputChanged(text)}
+                        autoCapitalize='none'
+                    />
+                </View>
+                <TouchableOpacity
+                    style={styles.bouton_connexion}
+                    onPress={() => {
+                        this.index = 1
+                        this._encryptPassword()
+                    }}
+                >
+                    <Text style={styles.textButon}>Connexion</Text>
+                </TouchableOpacity>
+            </ScrollView>
         )
     }
 }
