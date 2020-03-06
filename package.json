@@ -20,6 +20,7 @@
     "react-native": "0.61.5",
     "react-native-base64": "0.0.2",
     "react-native-gesture-handler": "^1.6.0",
+    "react-native-hr-component": "^2.0.3",
     "react-native-hyperlink": "0.0.19",
     "react-native-markdown-package": "^1.7.0",
     "react-native-paper": "^3.6.0",
