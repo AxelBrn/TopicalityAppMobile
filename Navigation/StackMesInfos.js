@@ -31,7 +31,7 @@ class StackMesInfos extends React.Component {
                                     style={styles.button_burger}
                                     activeOpacity={1}
                                     onPress={() => {
-                                        const action = { type: "TOGGLE_USER", value: undefined }
+                                        const action = { type: "DISCONNECT_USER", value: undefined }
                                         this.props.dispatch(action)
                                     }}
                                 >
@@ -49,7 +49,7 @@ class StackMesInfos extends React.Component {
                     options={{
                         headerTitleAlign: 'center',
                         headerStyle: {
-                            backgroundColor: '#eb9b3c'
+                            backgroundColor: '#ff7328'
                         },
                         headerTitleStyle: {
                             color: '#ffffff',

@@ -32,7 +32,7 @@ class Connexion extends React.Component {
     }
 
     _toggleUser() {
-        const action = { type: "TOGGLE_USER", value: this.state.user }
+        const action = { type: "CONNECT_USER", value: this.state.user }
         this.props.dispatch(action)
     }
 

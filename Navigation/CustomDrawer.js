@@ -75,7 +75,7 @@ class CustomDrawer extends React.Component {
                 <TouchableOpacity
                     style={styles.button_drawer_categorie}
                     onPress={() => {
-                        const action = { type: "TOGGLE_USER", value: undefined }
+                        const action = { type: "DISCONNECT_USER", value: undefined }
                         this.props.dispatch(action)
                         this.props.navigation.closeDrawer()
                     }}

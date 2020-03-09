@@ -5,19 +5,10 @@ const initialState = { user: undefined, articlesALire: [] }
 function toggleUser(state = initialState, action) {
     let nextState
     switch (action.type) {
-        case 'TOGGLE_USER':
-            const index = state.user
-            if (index !== undefined) {
-                nextState = {
-                    ...state,
-                    user: undefined
-                }
-            }
-            else {
-                nextState = {
-                    ...state,
-                    user: action.value
-                }
+        case 'CONNECT_USER':
+            nextState = {
+                ...state,
+                user: action.value
             }
             return nextState || state
 
@@ -36,7 +27,15 @@ function toggleUser(state = initialState, action) {
                 }
             }
             return nextState || state
-
+        case 'DISCONNECT_USER':
+            const index = state.user
+            if (index !== undefined) {
+                nextState = {
+                    ...state,
+                    user: undefined
+                }
+            }
+            return nextState || state
         default:
             return state
     }
