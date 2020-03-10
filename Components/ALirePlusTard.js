@@ -12,6 +12,7 @@ class ALirePlusTard extends React.Component {
                     articles={this.props.articlesALire}
                     navigation={this.props.navigation}
                     isLoading={false}
+                    isRefreshCheck={false}
                 />
             )
         }

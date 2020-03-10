@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, FlatList, View, ActivityIndicator } from 'react-native';
+import {StyleSheet, FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import ArticleItem from './ArticleItem';
 
 class ArticleList extends React.Component{
@@ -19,12 +19,20 @@ class ArticleList extends React.Component{
         }
     }
 
+    _refreshingVerif() {
+        if(this.props.isRefreshCheck){
+            return(
+                <RefreshControl refreshing={this.props.refreshing} onRefresh={this.props.refresh} />
+            )
+        }
+    }
+
     _displayArticle() {
         if (this.props.articles.length > 0) {
             return(
-                <View>
                     <FlatList
                         data={ this.props.articles }
+                        refreshControl={this._refreshingVerif()}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({item}) => (
                             <ArticleItem
@@ -33,7 +41,6 @@ class ArticleList extends React.Component{
                             />
                         )}
                     />
-            </View>
             )
         }
     }

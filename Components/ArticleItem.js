@@ -92,7 +92,7 @@ class ArticleItem extends React.Component{
                     <View style={styles.globale_article}>
                         {this._displayImage(article.image)}
                         <View style={styles.main_article}>
-                            <Text style={styles.titre_article}>{article.nom}</Text>
+                            <Text style={styles.titre_article} numberOfLines={3}>{article.nom}</Text>
                             <Text style={styles.description_article} numberOfLines={4}>{article.sous_titre}</Text>
                         </View>
                     </View>

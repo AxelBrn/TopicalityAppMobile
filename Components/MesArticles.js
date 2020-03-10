@@ -9,8 +9,14 @@ class MesArticles extends React.Component {
         super();
         this.state = {
             mesArticles: [],
-            isLoading : true
+            isLoading : true,
+            refreshing: false
         }
+    }
+
+    _onRefresh = () => {
+        this.setState({refreshing: true});
+        this._loadMesArticles()
     }
 
     _displayNoConnection () {
@@ -36,7 +42,8 @@ class MesArticles extends React.Component {
     _loadMesArticles() {
             getArticleByUser(this.props.user.id).then(data => this.setState({
                 mesArticles : data,
-                isLoading : false
+                isLoading : false,
+                refreshing: false
             }))
 
     }
@@ -50,6 +57,9 @@ class MesArticles extends React.Component {
                         navigation={this.props.navigation}
                         articles={this.state.mesArticles}
                         isLoading={this.state.isLoading}
+                        refreshing={this.state.refreshing}
+                        refresh={this._onRefresh}
+                        isRefreshCheck={true}
                     />
                 )
             }

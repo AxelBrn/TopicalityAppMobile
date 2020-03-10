@@ -1,13 +1,15 @@
 import React from 'react'
-import {StyleSheet} from 'react-native'
-import ArticleList from './ArticleList';
-import {getAllArticlesFromAPI} from '../Api/articleApi';
+import ArticleList from './ArticleList'
+import {getAllArticlesFromAPI} from '../Api/articleApi'
 
 class Accueil extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { articles: [], isLoading: true
+        this.state = {
+            articles: [],
+            refreshing: false,
+            isLoading: true
         }
         this._loadArticle()
     }
@@ -15,8 +17,14 @@ class Accueil extends React.Component {
     _loadArticle() {
         getAllArticlesFromAPI().then(data => this.setState({
             articles : data,
-            isLoading: false
+            isLoading: false,
+            refreshing: false
         }))
+    }
+
+    _onRefresh = () => {
+        this.setState({refreshing: true});
+        this._loadArticle()
     }
 
     render() {
@@ -25,12 +33,12 @@ class Accueil extends React.Component {
                 navigation={this.props.navigation}
                 articles={this.state.articles}
                 isLoading={this.state.isLoading}
+                refreshing={this.state.refreshing}
+                refresh={this._onRefresh}
+                isRefreshCheck={true}
             />
         )
     }
 }
-
-const styles = StyleSheet.create({
-});
 
 export default Accueil
