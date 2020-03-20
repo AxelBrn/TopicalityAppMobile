@@ -13,7 +13,7 @@ class TestImagePicker extends React.Component {
     }
 
     options = {
-        title: 'Select Avatar',
+        title: 'Choisir une image',
         storageOptions: {
             skipBackup: true,
             path: 'images',

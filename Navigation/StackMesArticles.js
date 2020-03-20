@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MesArticles from '../Components/MesArticles';
 import Connexion from '../Components/Connexion';
 import ArticleDetail from '../Components/ArticleDetail';
+import AddArticle from '../Components/AddArticle';
 
 const StackConnexionComponent = createStackNavigator()
 
@@ -55,6 +56,22 @@ class StackMesArticles extends React.Component {
                             fontWeight: 'bold'
                         },
                         title: 'Détail',
+                        headerTintColor: '#ffffff'
+                    }}
+                />
+                <StackConnexionComponent.Screen
+                    name="AddArticle"
+                    component={AddArticle}
+                    options={{
+                        headerTitleAlign: 'center',
+                        headerStyle: {
+                            backgroundColor: '#4e94f3'
+                        },
+                        headerTitleStyle: {
+                            color: '#ffffff',
+                            fontWeight: 'bold'
+                        },
+                        title: 'Ajouter un article',
                         headerTintColor: '#ffffff'
                     }}
                 />

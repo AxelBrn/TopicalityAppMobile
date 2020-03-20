@@ -2,7 +2,8 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
 import { connect } from 'react-redux'
 import {getArticleByUser} from '../Api/articleApi'
-import ArticleList from './ArticleList';
+import ArticleList from './ArticleList'
+import ButtonAdd from './LittleCompnents/ButtonAdd'
 
 class MesArticles extends React.Component {
     constructor() {
@@ -53,19 +54,33 @@ class MesArticles extends React.Component {
             this._loadMesArticles()
             if(this.state.mesArticles !== null) {
                 return (
-                    <ArticleList
-                        navigation={this.props.navigation}
-                        articles={this.state.mesArticles}
-                        isLoading={this.state.isLoading}
-                        refreshing={this.state.refreshing}
-                        refresh={this._onRefresh}
-                        isRefreshCheck={true}
-                    />
+                    <View style={{flex: 1}}>
+                        <ArticleList
+                            navigation={this.props.navigation}
+                            articles={this.state.mesArticles}
+                            isLoading={this.state.isLoading}
+                            refreshing={this.state.refreshing}
+                            refresh={this._onRefresh}
+                            isRefreshCheck={true}
+                        />
+                        <View style={styles.absolute_button}>
+                            <ButtonAdd
+                                navigation={this.props.navigation}
+                                user={this.props.user.id}
+                            />
+                        </View>
+                    </View>
                 )
             }
         return (
             <View style={{justifyContent: 'center', flex: 1}}>
                 <Text style={styles.text}>Vous n'avez pas encore publié d'articles !</Text>
+                <View style={styles.absolute_button}>
+                    <ButtonAdd
+                        navigation={this.props.navigation}
+                        user={this.props.user.id}
+                    />
+                </View>
             </View>
         )
         }
@@ -124,6 +139,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         textAlign: 'center'
+    },
+    absolute_button: {
+        position: 'absolute',
+        left: 0,
+        right: 20,
+        top: 0,
+        bottom: 20,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end'
     }
 })
 
