@@ -39,6 +39,7 @@ class Categorie extends React.Component {
                     refreshing={this.state.refreshing}
                     refresh={this._onRefresh}
                     isRefreshCheck={true}
+                    color={'#7571f9'}
                 />
             </View>
         )

@@ -1,5 +1,6 @@
 const API_TOKEN = "iuSDG654809LKSGG.JKCGµ£A/"
 const URL_BASE = 'https://www.topicality.fr/api/'
+const URL_TEST = 'http://10.0.2.2/Topicality/API/'
 
 export function getAllArticlesFromAPI () {
     return fetch(URL_BASE + API_TOKEN + 'article.php').then((response) => response.json())
@@ -29,7 +30,6 @@ export function getCountArticlesByUser (idUser) {
     return fetch(URL_BASE + API_TOKEN + 'article.php?countById=' + idUser).then((response) => response.json())
         .catch((error) => console.error(error));
 }
-const URL_TEST = 'http://10.0.2.2/Topicality/API/'
 
 export function addArticle(user, categ, titre, sousTitre, contenu, source, image) {
     let uploadData = new FormData()
@@ -46,9 +46,19 @@ export function addArticle(user, categ, titre, sousTitre, contenu, source, image
     uploadData.append('sousTitre', sousTitre)
     uploadData.append('contenu', contenu)
     uploadData.append('source', source)
-    return fetch(URL_TEST + API_TOKEN + 'article.php', {
+    return fetch(URL_BASE + API_TOKEN + 'article.php', {
         method: 'post',
         body: uploadData
+    }).then(response => response.json()).catch((error) => console.error(error));
+}
+
+export function deleteArticle(idArticle) {
+    let data = new FormData()
+    data.append('delete', 'ok')
+    data.append('id', idArticle)
+    return fetch(URL_BASE + API_TOKEN + 'article.php', {
+        method: 'post',
+        body: data
     }).then(response => response.json()).catch((error) => console.error(error));
 }
 

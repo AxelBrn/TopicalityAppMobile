@@ -62,6 +62,7 @@ class MesArticles extends React.Component {
                             refreshing={this.state.refreshing}
                             refresh={this._onRefresh}
                             isRefreshCheck={true}
+                            color={'#4e94f3'}
                         />
                         <View style={styles.absolute_button}>
                             <ButtonAdd

@@ -13,6 +13,7 @@ class ALirePlusTard extends React.Component {
                     navigation={this.props.navigation}
                     isLoading={false}
                     isRefreshCheck={false}
+                    color={'#ff5050'}
                 />
             )
         }

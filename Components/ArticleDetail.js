@@ -1,9 +1,11 @@
 import React from 'react'
-import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, Linking} from 'react-native';
+import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, SafeAreaView} from 'react-native';
 import {getImageFromAPI, getArticleByIdFromAPI} from '../Api/articleApi'
 import Hyperlink from 'react-native-hyperlink'
 import Markdown from 'react-native-markdown-package'
 import { connect } from 'react-redux'
+import ButtonMenu from './LittleCompnents/ButtonMenu'
+import DeletePopUp from './LittleCompnents/DeletePopUp'
 
 class ArticleDetail extends React.Component{
 
@@ -11,12 +13,34 @@ class ArticleDetail extends React.Component{
         super(props);
         this.state = {
             article: undefined,
-            isLoading: true
+            isLoading: true,
+            isActive: false,
+            popUpActive: false,
+            disabledButtonMenu: false
         }
     }
     _toggleALirePlusTard() {
         const action = { type: "TOGGLE_PLUS_TARD", value: this.state.article }
         this.props.dispatch(action)
+    }
+
+    _displayLittleMenu = () => {
+        if(this.state.isActive){
+            this.setState({
+                isActive: false
+            })
+        }else{
+            this.setState({
+                isActive: true
+            })
+        }
+    }
+
+    popUpIsActive = (value) => {
+        this.setState({
+            popUpActive: value,
+            disabledButtonMenu: value
+        })
     }
 
     _displayLireImage() {
@@ -69,32 +93,81 @@ class ArticleDetail extends React.Component{
         })
     }
 
+    _displayPopUp() {
+        if(this.state.popUpActive){
+            return (
+                <View style={styles.popup}>
+                    <DeletePopUp
+                        article={this.state.article.id}
+                        popUpActive={this.popUpIsActive}
+                        color={this.props.route.params.color}
+                        navigation={this.props.navigation}
+                    />
+                </View>
+            )
+        }
+    }
+
+    _hideLittleMenu() {
+        if(this.state.isActive){
+            this.setState({
+                isActive: false
+            })
+        }
+    }
+
+    _displayButtonControl() {
+        if(this.state.isLoading === false) {
+            if(this.props.user.id === this.state.article.user_id){
+                return (
+                    <View style={styles.absolute_button}>
+                        <ButtonMenu
+                            color={this.props.route.params.color}
+                            active={this._displayLittleMenu}
+                            isActive={this.state.isActive}
+                            popUpActive={this.popUpIsActive}
+                            disabled={this.state.disabledButtonMenu}
+                        />
+                    </View>
+                )
+            }
+        }
+    }
+
     _displayArticle() {
         if (this.state.article !== undefined){
             return(
-                <ScrollView style={styles.scrollview_article}>
-                    <Text style={styles.titre_article}>{this.state.article.nom}</Text>
-                    {this._displayImageArticle(this.state.article.image)}
-                    <TouchableOpacity
-                        style={styles.lire_PlusTard}
-                        onPress={() => this._toggleALirePlusTard()}>
-                        {this._displayLireImage()}
-                    </TouchableOpacity>
-                    <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
-                    <View style={styles.contenu_article}>
-                        <Markdown>
-                            {this.state.article.contenu}
-                        </Markdown>
-                    </View>
-                    <Hyperlink linkDefault={ true }>
-                        <Text style={styles.source_article}>{this.state.article.source}</Text>
-                    </Hyperlink>
-                    <Text style={styles.auteur_article}>{this.state.article.u_nom} {this.state.article.u_prenom}</Text>
-                    <View style={styles.caracteristique_article}>
-                        <Text style={styles.publie_article}>{this._setFormatDate(this.state.article.datetime)}</Text>
-                        <Text style={styles.categorie_article}>{this.state.article.libelle}</Text>
-                    </View>
-                </ScrollView>
+                <SafeAreaView>
+                    <ScrollView style={styles.scrollview_article}>
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => this._hideLittleMenu()}
+                        >
+                            <Text style={styles.titre_article}>{this.state.article.nom}</Text>
+                            {this._displayImageArticle(this.state.article.image)}
+                            <TouchableOpacity
+                                style={styles.lire_PlusTard}
+                                onPress={() => this._toggleALirePlusTard()}>
+                                {this._displayLireImage()}
+                            </TouchableOpacity>
+                            <Text style={styles.description_article}>{this.state.article.sous_titre}</Text>
+                            <View style={styles.contenu_article}>
+                                <Markdown>
+                                    {this.state.article.contenu}
+                                </Markdown>
+                            </View>
+                            <Hyperlink linkDefault={ true }>
+                                <Text style={styles.source_article}>{this.state.article.source}</Text>
+                            </Hyperlink>
+                            <Text style={styles.auteur_article}>{this.state.article.u_nom} {this.state.article.u_prenom}</Text>
+                            <View style={styles.caracteristique_article}>
+                                <Text style={styles.publie_article}>{this._setFormatDate(this.state.article.datetime)}</Text>
+                                <Text style={styles.categorie_article}>{this.state.article.libelle}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </ScrollView>
+                    {this._displayPopUp()}
+                </SafeAreaView>
             )
         }
     }
@@ -104,6 +177,7 @@ class ArticleDetail extends React.Component{
             <View style={{flex:1}}>
                 {this._displayLoading()}
                 {this._displayArticle()}
+                {this._displayButtonControl()}
             </View>
         )
     }
@@ -176,17 +250,37 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     lire_PlusTard: {
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 5
     },
     lire_image: {
         width: 40,
         height: 40
+    },
+    absolute_button: {
+        position: 'absolute',
+        left: 0,
+        right: 20,
+        top: 0,
+        bottom: 20,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end'
+    },
+    popup: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 
 const mapStateToProps = (state) => {
     return {
-        articlesALire: state.articlesALire
+        articlesALire: state.articlesALire,
+        user: state.user
     }
 }
 

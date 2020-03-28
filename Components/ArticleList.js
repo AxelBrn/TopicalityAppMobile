@@ -5,12 +5,11 @@ import ArticleItem from './ArticleItem';
 class ArticleList extends React.Component{
 
     _displayDetailForArticle = (idArticle) => {
-        this.props.navigation.navigate('Detail', {idArticle: idArticle})
+        this.props.navigation.navigate('Detail', {idArticle: idArticle, color: this.props.color})
     }
 
     _displayLoading() {
         if (this.props.isLoading) {
-            // Si isLoading vaut true, on affiche le chargement à l'écran
             return (
                 <View style={styles.loading_container}>
                     <ActivityIndicator size='large' color={'black'} />
