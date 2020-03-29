@@ -1,8 +1,10 @@
 import React from 'react'
-import {StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView} from 'react-native'
+import {StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, Alert} from 'react-native';
 import base64 from 'react-native-base64'
 import { getUserIfConnected } from '../Api/connexionApi'
 import { connect } from 'react-redux'
+import NetInfo from '@react-native-community/netinfo';
+import {deleteArticle} from '../Api/articleApi';
 
 class Connexion extends React.Component {
 
@@ -25,10 +27,17 @@ class Connexion extends React.Component {
     }
 
     _verifConnexion (mail, password) {
-        getUserIfConnected(mail, password).then(data => this.setState({
-            user: data[0],
-            isConnectionFail: true
-        }))
+        NetInfo.fetch().then(state => {
+            if(state.isConnected === false){
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+            else{
+                getUserIfConnected(mail, password).then(data => this.setState({
+                    user: data[0],
+                    isConnectionFail: true
+                }))
+            }
+        })
     }
 
     _toggleUser() {

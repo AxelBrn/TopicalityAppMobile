@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native'
 import { deleteArticle } from '../../Api/articleApi'
+import NetInfo from '@react-native-community/netinfo'
 
 class DeletePopUp extends React.Component {
 
@@ -11,8 +12,18 @@ class DeletePopUp extends React.Component {
     }
 
     _onPressYes() {
-        deleteArticle(this.props.article)
-        this.props.navigation.navigate('MesArticles')
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.props.isConnected){
+                this.props.setIsConnected(state.isConnected)
+                if(state.isConnected === false){
+                    Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+                }
+            }
+            if(state.isConnected){
+                deleteArticle(this.props.article)
+                this.props.navigation.navigate('MesArticles')
+            }
+        })
     }
 
     render() {

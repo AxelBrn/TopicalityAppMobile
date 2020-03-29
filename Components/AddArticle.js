@@ -1,8 +1,9 @@
 import React from 'react'
-import {StyleSheet, Text, View, ScrollView, TextInput, Picker, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TextInput, Picker, Image, TouchableOpacity, Alert} from 'react-native';
 import { getAllCategoriesFromAPI } from '../Api/categorieApi'
 import ImagePicker from 'react-native-image-picker'
-import {addArticle, getImageFromAPI} from '../Api/articleApi';
+import {addArticle} from '../Api/articleApi'
+import NetInfo from '@react-native-community/netinfo';
 
 class AddArticle extends React.Component {
 
@@ -12,13 +13,27 @@ class AddArticle extends React.Component {
             categories: [],
             categSelected: 1,
             image: undefined,
-            erreur: false
+            erreur: false,
+            isConnected: false
         }
         this.titre= ""
         this.sousTitre = ""
         this.contenu = ""
         this.source = ""
-        this._getAllCategories()
+        this._checkConnectivity()
+    }
+
+    _checkConnectivity = () => {
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                this._getAllCategories()
+            }
+        })
     }
 
     options = {
@@ -68,13 +83,25 @@ class AddArticle extends React.Component {
     }
 
     _publish() {
-        let user = this.props.route.params.idUser
-        if(this.titre === '' || this.contenu === '' || this.source === ''){
-            this.setState({erreur: true})
-        }else{
-            addArticle(user, this.state.categSelected, this.titre, this.sousTitre, this.contenu, this.source, this.state.image).then(data => console.log(data))
-            this.props.navigation.goBack()
-        }
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+                if(state.isConnected === false){
+                    Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+                }
+            }
+            if(state.isConnected){
+                let user = this.props.route.params.idUser
+                if(this.titre === '' || this.contenu === '' || this.source === ''){
+                    this.setState({erreur: true})
+                }else{
+                    addArticle(user, this.state.categSelected, this.titre, this.sousTitre, this.contenu, this.source, this.state.image).then(data => console.log(data))
+                    this.props.navigation.goBack()
+                }
+            }
+        })
     }
 
     _displayImage() {

@@ -1,9 +1,11 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Image, Alert} from 'react-native';
 import { connect } from 'react-redux'
 import {getArticleByUser} from '../Api/articleApi'
 import ArticleList from './ArticleList'
 import ButtonAdd from './LittleCompnents/ButtonAdd'
+import NetInfo from '@react-native-community/netinfo';
+import NoInternet from './NoInternet';
 
 class MesArticles extends React.Component {
     constructor() {
@@ -11,13 +13,53 @@ class MesArticles extends React.Component {
         this.state = {
             mesArticles: [],
             isLoading : true,
-            refreshing: false
+            refreshing: false,
+            isConnected: false
         }
+    }
+
+    _checkConnectivity = (isRefreshing) => {
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                this._loadMesArticles()
+            }else if(isRefreshing){
+                this.setState({
+                    refreshing: false
+                })
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+        })
     }
 
     _onRefresh = () => {
         this.setState({refreshing: true});
-        this._loadMesArticles()
+        this._checkConnectivity(true)
+    }
+
+    _displayAddButton() {
+        if(this.state.isConnected){
+            return (
+                <View style={styles.absolute_button}>
+                    <ButtonAdd
+                        navigation={this.props.navigation}
+                        user={this.props.user.id}
+                        setIsConnected={this._onPressAddButton}
+                        isConnected={this.state.isConnected}
+                    />
+                </View>
+            )
+        }
+    }
+
+    _onPressAddButton = (value) => {
+         this.setState({
+             isConnected: value
+         })
     }
 
     _displayNoConnection () {
@@ -46,44 +88,50 @@ class MesArticles extends React.Component {
                 isLoading : false,
                 refreshing: false
             }))
-
     }
 
     _displayMesArticles () {
         if(this.props.user !== undefined) {
-            this._loadMesArticles()
-            if(this.state.mesArticles !== null) {
+            if(this.state.mesArticles.length === 0){
+                this._checkConnectivity(false)
+            }
+            if(this.state.isConnected || this.state.mesArticles.length > 0){
+                if(this.state.mesArticles !== null) {
+                    return (
+                        <View style={{flex: 1}}>
+                            <ArticleList
+                                navigation={this.props.navigation}
+                                articles={this.state.mesArticles}
+                                isLoading={this.state.isLoading}
+                                refreshing={this.state.refreshing}
+                                refresh={this._onRefresh}
+                                isRefreshCheck={true}
+                                color={'#4e94f3'}
+                            />
+                            {this._displayAddButton()}
+                        </View>
+                    )
+                }
                 return (
-                    <View style={{flex: 1}}>
-                        <ArticleList
-                            navigation={this.props.navigation}
-                            articles={this.state.mesArticles}
-                            isLoading={this.state.isLoading}
-                            refreshing={this.state.refreshing}
-                            refresh={this._onRefresh}
-                            isRefreshCheck={true}
-                            color={'#4e94f3'}
-                        />
+                    <View style={{justifyContent: 'center', flex: 1}}>
+                        <Text style={styles.text}>Vous n'avez pas encore publié d'articles !</Text>
                         <View style={styles.absolute_button}>
                             <ButtonAdd
                                 navigation={this.props.navigation}
                                 user={this.props.user.id}
+                                setIsConnected={this._onPressAddButton}
+                                isConnected={this.state.isConnected}
                             />
                         </View>
                     </View>
                 )
             }
-        return (
-            <View style={{justifyContent: 'center', flex: 1}}>
-                <Text style={styles.text}>Vous n'avez pas encore publié d'articles !</Text>
-                <View style={styles.absolute_button}>
-                    <ButtonAdd
-                        navigation={this.props.navigation}
-                        user={this.props.user.id}
-                    />
-                </View>
-            </View>
-        )
+            return (
+                <NoInternet
+                    color={'#4e94f3'}
+                    retry={this._checkConnectivity}
+                />
+            )
         }
 
     }

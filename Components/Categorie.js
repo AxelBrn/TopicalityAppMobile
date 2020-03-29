@@ -1,7 +1,9 @@
 import React from 'react'
-import {StyleSheet, Text, View } from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
+import NetInfo from '@react-native-community/netinfo'
 import {getArticleByCategorie} from '../Api/articleApi';
 import ArticleList from './ArticleList';
+import NoInternet from './NoInternet';
 
 class Categorie extends React.Component {
 
@@ -10,14 +12,33 @@ class Categorie extends React.Component {
         this.state = {
             articles: [],
             isLoading: true,
-            refreshing: false
+            refreshing: false,
+            isConnected: false
         }
-        this._loadArticle()
+        this._checkConnectivity(false)
+    }
+
+    _checkConnectivity = (isRefreshing) => {
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected && isRefreshing === false){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                this._loadArticle()
+            }else{
+                this.setState({
+                    refreshing: false
+                })
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+        })
     }
 
     _onRefresh = () => {
         this.setState({refreshing: true});
-        this._loadArticle()
+        this._checkConnectivity()
     }
 
     _loadArticle() {
@@ -28,20 +49,34 @@ class Categorie extends React.Component {
         }))
     }
 
+    _displayCategorieArticles() {
+        if(this.state.isConnected) {
+            return (
+                <View style={{flex:1}}>
+                    <Text style={styles.categories_title}>Tous les articles de la catégorie {this.props.route.params.libelleCateg} :</Text>
+                    <ArticleList
+                        navigation={this.props.navigation}
+                        articles={this.state.articles}
+                        isLoading={this.state.isLoading}
+                        refreshing={this.state.refreshing}
+                        refresh={this._onRefresh}
+                        isRefreshCheck={true}
+                        color={'#7571f9'}
+                    />
+                </View>
+            )
+        }
+        return (
+            <NoInternet
+                color={'#7571f9'}
+                retry={this._checkConnectivity}
+            />
+        )
+    }
+
     render() {
         return (
-            <View style={{flex:1}}>
-                <Text style={styles.categories_title}>Tous les articles de la catégorie {this.props.route.params.libelleCateg} :</Text>
-                <ArticleList
-                    navigation={this.props.navigation}
-                    articles={this.state.articles}
-                    isLoading={this.state.isLoading}
-                    refreshing={this.state.refreshing}
-                    refresh={this._onRefresh}
-                    isRefreshCheck={true}
-                    color={'#7571f9'}
-                />
-            </View>
+            this._displayCategorieArticles()
         )
     }
 }

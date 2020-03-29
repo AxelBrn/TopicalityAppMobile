@@ -1,11 +1,19 @@
 import React from 'react'
-import {StyleSheet, FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
+import {StyleSheet, FlatList, View, ActivityIndicator, RefreshControl, Alert} from 'react-native';
 import ArticleItem from './ArticleItem';
+import NetInfo from '@react-native-community/netinfo';
 
 class ArticleList extends React.Component{
 
     _displayDetailForArticle = (idArticle) => {
-        this.props.navigation.navigate('Detail', {idArticle: idArticle, color: this.props.color})
+        NetInfo.fetch().then(state => {
+            if(state.isConnected === false){
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+            else{
+                this.props.navigation.navigate('Detail', {idArticle: idArticle, color: this.props.color})
+            }
+        })
     }
 
     _displayLoading() {

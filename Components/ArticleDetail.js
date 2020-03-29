@@ -1,11 +1,12 @@
 import React from 'react'
-import {StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, SafeAreaView} from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
 import {getImageFromAPI, getArticleByIdFromAPI} from '../Api/articleApi'
 import Hyperlink from 'react-native-hyperlink'
 import Markdown from 'react-native-markdown-package'
 import { connect } from 'react-redux'
 import ButtonMenu from './LittleCompnents/ButtonMenu'
 import DeletePopUp from './LittleCompnents/DeletePopUp'
+import NetInfo from '@react-native-community/netinfo';
 
 class ArticleDetail extends React.Component{
 
@@ -16,7 +17,8 @@ class ArticleDetail extends React.Component{
             isLoading: true,
             isActive: false,
             popUpActive: false,
-            disabledButtonMenu: false
+            disabledButtonMenu: false,
+            isConnected: false
         }
     }
     _toggleALirePlusTard() {
@@ -24,16 +26,42 @@ class ArticleDetail extends React.Component{
         this.props.dispatch(action)
     }
 
+    _checkConnectivity = () => {
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                this._loadArticle()
+            }else{
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+        })
+    }
+
     _displayLittleMenu = () => {
-        if(this.state.isActive){
-            this.setState({
-                isActive: false
-            })
-        }else{
-            this.setState({
-                isActive: true
-            })
-        }
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                if(this.state.isActive){
+                    this.setState({
+                        isActive: false
+                    })
+                }else{
+                    this.setState({
+                        isActive: true
+                    })
+                }
+            }else{
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+        })
     }
 
     popUpIsActive = (value) => {
@@ -84,13 +112,17 @@ class ArticleDetail extends React.Component{
         return date.substr(8,2) + '/' + date.substr(5,2) + '/' + date.substr(0,4)
     }
 
-    componentDidMount() {
+    _loadArticle() {
         getArticleByIdFromAPI(this.props.route.params.idArticle).then(data => {
             this.setState({
                 article: data[0],
                 isLoading: false
             })
         })
+    }
+
+    componentDidMount() {
+        this._checkConnectivity()
     }
 
     _displayPopUp() {
@@ -118,7 +150,7 @@ class ArticleDetail extends React.Component{
 
     _displayButtonControl() {
         if(this.state.isLoading === false) {
-            if(this.props.user.id === this.state.article.user_id){
+            if(this.props.user.id === this.state.article.user_id && this.state.isConnected){
                 return (
                     <View style={styles.absolute_button}>
                         <ButtonMenu

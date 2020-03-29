@@ -1,19 +1,64 @@
 import React from 'react'
-import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, Text, View, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux'
-import { getCountArticlesByUser } from '../Api/articleApi'
+import {addArticle, getCountArticlesByUser} from '../Api/articleApi';
+import NetInfo from '@react-native-community/netinfo';
 
 class MesInformations extends React.Component {
 
     constructor() {
         super()
-        this.state = {total : 0}
+        this.state = {
+            total : 0,
+            isConnected: false
+        }
     }
 
-    componentDidMount() {
+    _checkConnectivity() {
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                this._loadCountArticles()
+            }
+        })
+    }
+
+    _loadCountArticles() {
         getCountArticlesByUser(this.props.user.id).then(data => this.setState({
             total: data[0].total
         }))
+    }
+
+    componentDidMount() {
+        this._checkConnectivity()
+    }
+
+    _displayArticlesPublish() {
+        if(this.state.isConnected) {
+            return (
+                <View style={styles.countainer_count}>
+                    <Text style={styles.text_count_left}>Articles publiés :</Text>
+                    <Text style={styles.text_count_right}>{this.state.total}</Text>
+                </View>
+            )
+        }
+        return (
+            <View style={[styles.countainer_count, {height: 60}]}>
+                <Text style={[styles.text_count_left, {marginLeft: 20, paddingRight: 20}]}>Vous n'êtes pas connecté à internet</Text>
+                <View style={styles.text_count_right}>
+                    <TouchableOpacity
+                        style={{justifyContent: 'center', height: 40, width: '80%', backgroundColor: '#ff7328', borderRadius: 20, alignSelf: 'center'}}
+                        onPress={() => this._checkConnectivity()}
+                    >
+                        <Text style={[styles.textButon, {marginTop: 0}]}>Réessayer</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
     }
 
     render() {
@@ -26,10 +71,7 @@ class MesInformations extends React.Component {
                 <Text style={styles.nom_prenom}>{this.props.user.nom} {this.props.user.prenom}</Text>
                 <Text style={styles.label_mail}>Adresse mail</Text>
                 <Text style={styles.email}>{this.props.user.email}</Text>
-                <View style={styles.countainer_count}>
-                    <Text style={styles.text_count_left}>Articles publiés :</Text>
-                    <Text style={styles.text_count_right}>{this.state.total}</Text>
-                </View>
+                {this._displayArticlesPublish()}
                 <TouchableOpacity
                     style={styles.bouton_editer}
                     onPress={() => this.props.navigation.navigate('ModifierProfil')}
@@ -87,7 +129,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1.5,
         height: 40,
         textAlignVertical: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+
     },
     text_count_right : {
         flex: 1,

@@ -1,8 +1,9 @@
 import React from 'react'
-import {StyleSheet, View, Text, TextInput, ScrollView, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, TextInput, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux'
-import { updateUserInfos, verifOldPassword } from '../Api/connexionApi'
+import {getUserIfConnected, updateUserInfos, verifOldPassword} from '../Api/connexionApi';
 import base64 from 'react-native-base64'
+import NetInfo from '@react-native-community/netinfo';
 
 class ModifierProfil extends React.Component {
 
@@ -36,20 +37,27 @@ class ModifierProfil extends React.Component {
     }
 
     _verifOldPassword() {
-        if(this.oldPw !== ''){
-            let password = base64.encode(this.oldPw)
-            verifOldPassword(this.props.user.id, password).then(data => this.setState({
-                verifOldPassword: data.isGoodPassword
-            }))
-        }else if (this.oldPw === '' && this.newPw !== '' && this.newPwVerif !== ''){
-            this.setState({
-                verifOldPassword: false
-            })
-        }else{
-            this.setState({
-                verifOldPassword: true
-            })
-        }
+        NetInfo.fetch().then(state => {
+            if(state.isConnected === false){
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+            else{
+                if(this.oldPw !== ''){
+                    let password = base64.encode(this.oldPw)
+                    verifOldPassword(this.props.user.id, password).then(data => this.setState({
+                        verifOldPassword: data.isGoodPassword
+                    }))
+                }else if (this.oldPw === '' && this.newPw !== '' && this.newPwVerif !== ''){
+                    this.setState({
+                        verifOldPassword: false
+                    })
+                }else{
+                    this.setState({
+                        verifOldPassword: true
+                    })
+                }
+            }
+        })
     }
 
     _displayErrorOldPw() {
@@ -70,11 +78,18 @@ class ModifierProfil extends React.Component {
     }
 
     _submitUpdate() {
-        this._verifChampsComplete()
-        if(this.state.verifPassword && this.state.verifOldPassword ){
-            this._getUpdate()
-            this.props.navigation.goBack()
-        }
+        NetInfo.fetch().then(state => {
+            if(state.isConnected === false){
+                Alert.alert('Pas de connexion', 'Vérifiez votre connexion internet')
+            }
+            else{
+                this._verifChampsComplete()
+                if(this.state.verifPassword && this.state.verifOldPassword ){
+                    this._getUpdate()
+                    this.props.navigation.goBack()
+                }
+            }
+        })
     }
 
     _nomTextInputChanged(text) {

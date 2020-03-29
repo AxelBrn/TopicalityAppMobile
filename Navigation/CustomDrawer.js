@@ -1,15 +1,20 @@
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, View, Text, FlatList} from "react-native"
+import {Image, StyleSheet, TouchableOpacity, View, Text, FlatList, Alert} from 'react-native';
 import { getAllCategoriesFromAPI } from '../Api/categorieApi'
+import NetInfo from '@react-native-community/netinfo'
 import { connect } from 'react-redux'
+import NoInternet from '../Components/NoInternet';
 
 
 class CustomDrawer extends React.Component {
 
     constructor() {
         super()
-        this.state = {categories: []}
-        this._recupAllCategories()
+        this.state = {
+            categories: [],
+            isConnected: false
+        }
+        this._checkConnectivity()
     }
 
     _displayImageCategorie(path) {
@@ -69,6 +74,19 @@ class CustomDrawer extends React.Component {
         }))
     }
 
+    _checkConnectivity = () => {
+        NetInfo.fetch().then(state => {
+            if(state.isConnected !== this.state.isConnected){
+                this.setState({
+                    isConnected: state.isConnected
+                })
+            }
+            if(state.isConnected){
+                this._recupAllCategories()
+            }
+        })
+    }
+
     _isConnected() {
         if(this.props.user !== undefined) {
             return (
@@ -90,40 +108,56 @@ class CustomDrawer extends React.Component {
         }
     }
 
+    _displayDrawer() {
+        if(this.state.isConnected) {
+            return (
+                <View>
+                    <TouchableOpacity
+                        style={styles.background_logo}
+                        onPress={() => this.props.navigation.navigate('Connexion')}
+                    >
+                        <Image
+                            source={require('../Images/logo_Topicality.png')}
+                            style={styles.logo}
+                        />
+                    </TouchableOpacity>
+                    <View style={{backgroundColor: '#ffffff'}}>
+                        <View>
+                            <View style={styles.title_drawer_text}>
+                                <Text style={styles.text_style}>CATÉGORIES</Text>
+                            </View>
+                            <FlatList
+                                data={ this.state.categories }
+                                keyExtractor={(item) => item.id.toString()}
+                                renderItem={({item}) => (
+                                    <TouchableOpacity
+                                        style={styles.button_drawer_categorie}
+                                        onPress={() => this.props.navigation.navigate('Categorie', {idCategorie: item.id, libelleCateg: item.libelle})}
+                                    >
+                                        {this._displayImageCategorie(item.id)}
+                                        <Text style={styles.text_style}>{item.libelle}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                        </View>
+                        {this._isConnected()}
+                    </View>
+                </View>
+            )
+        }
+        return (
+            <View style={styles.no_internet}>
+                <NoInternet
+                    color={'#7571f9'}
+                    retry={this._checkConnectivity}
+                />
+            </View>
+        )
+    }
+
     render() {
         return (
-            <View>
-                <TouchableOpacity
-                    style={styles.background_logo}
-                    onPress={() => this.props.navigation.navigate('Connexion')}
-                >
-                    <Image
-                        source={require('../Images/logo_Topicality.png')}
-                        style={styles.logo}
-                    />
-                </TouchableOpacity>
-                <View style={{backgroundColor: '#ffffff'}}>
-                    <View>
-                        <View style={styles.title_drawer_text}>
-                            <Text style={styles.text_style}>CATÉGORIES</Text>
-                        </View>
-                        <FlatList
-                            data={ this.state.categories }
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({item}) => (
-                                <TouchableOpacity
-                                    style={styles.button_drawer_categorie}
-                                    onPress={() => this.props.navigation.navigate('Categorie', {idCategorie: item.id, libelleCateg: item.libelle})}
-                                >
-                                    {this._displayImageCategorie(item.id)}
-                                    <Text style={styles.text_style}>{item.libelle}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </View>
-                    {this._isConnected()}
-                </View>
-            </View>
+            this._displayDrawer()
         )
     }
 }
@@ -161,6 +195,9 @@ const styles = StyleSheet.create({
         paddingTop:20,
         backgroundColor: '#7571f9',
         height:60
+    },
+    no_internet: {
+        marginTop: '50%'
     }
 })
 

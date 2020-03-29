@@ -25,7 +25,7 @@ class Accueil extends React.Component {
                     isConnected: state.isConnected
                 })
             }
-            if(state.isConnected && isRefreshing === false){
+            if(state.isConnected){
                 this._loadArticle()
             }else{
                 this.setState({
@@ -64,7 +64,10 @@ class Accueil extends React.Component {
             )
         }
         return (
-            <NoInternet/>
+            <NoInternet
+                color={'#7571f9'}
+                retry={this._checkConnectivity}
+            />
         )
     }
 
