@@ -156,9 +156,12 @@ class ArticleDetail extends React.Component{
                         <ButtonMenu
                             color={this.props.route.params.color}
                             active={this._displayLittleMenu}
+                            navigation={this.props.navigation}
                             isActive={this.state.isActive}
+                            article={this.state.article}
                             popUpActive={this.popUpIsActive}
                             disabled={this.state.disabledButtonMenu}
+                            reload={this._checkConnectivity}
                         />
                     </View>
                 )

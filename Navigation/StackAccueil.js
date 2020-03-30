@@ -4,6 +4,7 @@ import Accueil from '../Components/Accueil'
 import ArticleDetail from '../Components/ArticleDetail';
 import Categorie from '../Components/Categorie';
 import {createStackNavigator} from '@react-navigation/stack';
+import ModifierArticle from '../Components/ModifierArticle';
 
 const StackAccueilComponent = createStackNavigator()
 
@@ -69,6 +70,22 @@ class StackAccueil extends React.Component {
                             fontWeight: 'bold'
                         },
                         title: 'Catégorie',
+                        headerTintColor: '#ffffff'
+                    }}
+                />
+                <StackAccueilComponent.Screen
+                    name="ModifArticle"
+                    component={ModifierArticle}
+                    options={{
+                        headerTitleAlign: 'center',
+                        headerStyle: {
+                            backgroundColor: '#7571f9'
+                        },
+                        headerTitleStyle: {
+                            color: '#ffffff',
+                            fontWeight: 'bold'
+                        },
+                        title: 'Modifier un article',
                         headerTintColor: '#ffffff'
                     }}
                 />

@@ -34,7 +34,7 @@ export function getCountArticlesByUser (idUser) {
 export function addArticle(user, categ, titre, sousTitre, contenu, source, image) {
     let uploadData = new FormData()
     uploadData.append('insert', 'ok')
-    if(image == undefined){
+    if(image === undefined){
         uploadData.append('haveImage', 'non')
     }else{
         uploadData.append('haveImage', 'oui')
@@ -49,6 +49,27 @@ export function addArticle(user, categ, titre, sousTitre, contenu, source, image
     return fetch(URL_BASE + API_TOKEN + 'article.php', {
         method: 'post',
         body: uploadData
+    }).then(response => response.json()).catch((error) => console.error(error));
+}
+
+export function updateArticle(categ, titre, sousTitre, contenu, source, image, id) {
+    let data = new FormData()
+    data.append('update', 'ok')
+    if(image === undefined){
+        data.append('haveImage', 'non')
+    }else{
+        data.append('haveImage', 'oui')
+        data.append('file', { type: image.type, uri: image.uri, name: image.fileName})
+    }
+    data.append('idArticle', id)
+    data.append('categorie', categ)
+    data.append('titre', titre)
+    data.append('sousTitre', sousTitre)
+    data.append('contenu', contenu)
+    data.append('source', source)
+    return fetch(URL_BASE + API_TOKEN + 'article.php', {
+        method: 'post',
+        body: data
     }).then(response => response.json()).catch((error) => console.error(error));
 }
 

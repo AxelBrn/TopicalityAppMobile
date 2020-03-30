@@ -30,6 +30,16 @@ class ButtonMenu extends React.Component {
         this.props.active()
     }
 
+    _reloadArticle() {
+        console.log('ok')
+        this.props.reload()
+    }
+
+    _onPressModifier() {
+        this.props.active()
+        this.props.navigation.navigate('ModifArticle', {article: this.props.article, color: this.props.color, reload: this._reloadArticle.bind(this)})
+    }
+
     _displayMenu() {
         if(this.props.isActive) {
             if(this.props.disabled){
@@ -43,6 +53,7 @@ class ButtonMenu extends React.Component {
                     >
                         <TouchableOpacity
                             style={styles.button_choose}
+                            onPress={() => this._onPressModifier()}
                         >
                            <Text style={styles.texte}>Modifier</Text>
                         </TouchableOpacity>
