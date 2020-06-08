@@ -149,7 +149,7 @@ class ArticleDetail extends React.Component{
     }
 
     _displayButtonControl() {
-        if(this.state.isLoading === false) {
+        if(this.state.isLoading === false && this.props.user !== undefined) {
             if(this.props.user.id === this.state.article.user_id && this.state.isConnected){
                 return (
                     <View style={styles.absolute_button}>

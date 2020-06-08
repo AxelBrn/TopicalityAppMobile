@@ -116,12 +116,7 @@ class MesArticles extends React.Component {
                     <View style={{justifyContent: 'center', flex: 1}}>
                         <Text style={styles.text}>Vous n'avez pas encore publié d'articles !</Text>
                         <View style={styles.absolute_button}>
-                            <ButtonAdd
-                                navigation={this.props.navigation}
-                                user={this.props.user.id}
-                                setIsConnected={this._onPressAddButton}
-                                isConnected={this.state.isConnected}
-                            />
+                            {this._displayAddButton()}
                         </View>
                     </View>
                 )
