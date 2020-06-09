@@ -96,7 +96,7 @@ class MesArticles extends React.Component {
                 this._checkConnectivity(false)
             }
             if(this.state.isConnected || this.state.mesArticles.length > 0){
-                if(this.state.mesArticles !== null) {
+                if(this.state.mesArticles.length > 0) {
                     return (
                         <View style={{flex: 1}}>
                             <ArticleList
@@ -115,9 +115,13 @@ class MesArticles extends React.Component {
                 return (
                     <View style={{justifyContent: 'center', flex: 1}}>
                         <Text style={styles.text}>Vous n'avez pas encore publié d'articles !</Text>
-                        <View style={styles.absolute_button}>
-                            {this._displayAddButton()}
-                        </View>
+                        <TouchableOpacity
+                            style={styles.bouton_connexion}
+                            onPress={() => this._onRefresh()}
+                        >
+                            <Text style={styles.textButon}>Actualiser</Text>
+                        </TouchableOpacity>
+                        {this._displayAddButton()}
                     </View>
                 )
             }
